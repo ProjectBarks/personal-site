@@ -40,13 +40,6 @@ html(lang='en')
         each chip in meta_chips
           span= chip
 
-      .now-line
-        span.dot(aria-hidden='true')
-        span
-          b now
-          |  ·
-          != now_html
-
       p.lede!= lede_html
 
       hr
@@ -83,12 +76,14 @@ html(lang='en')
               span!= a.role_html
             .where= a.location
 
-      //- PROJECTS
+      //- PROJECTS  (>10 → details)
+      - var pVisible = projects.slice(0, 10)
+      - var pRest    = projects.slice(10)
       .block
         h2
           | projects&nbsp;
           span.count — #{projects.length}
-        each p in projects
+        each p in pVisible
           .row(id=p.id)
             .yr= p.year
             .what
@@ -98,13 +93,28 @@ html(lang='en')
                 b= p.name
               span!= p.blurb_html
             .where= p.scope
+        if pRest.length
+          details.more
+            summary +#{pRest.length} more
+            each p in pRest
+              .row(id=p.id)
+                .yr= p.year
+                .what
+                  if p.link
+                    b: a(href=p.link)= p.name
+                  else
+                    b= p.name
+                  span!= p.blurb_html
+                .where= p.scope
 
-      //- AWARDS
+      //- AWARDS  (>10 → details)
+      - var aVisible = awards.slice(0, 10)
+      - var aRest    = awards.slice(10)
       .block
         h2
           | awards&nbsp;
           span.count — #{awards.length}
-        each aw in awards
+        each aw in aVisible
           .row
             .yr= aw.year
             .what
@@ -114,6 +124,19 @@ html(lang='en')
                 b= aw.name
               span!= aw.blurb_html
             .where= aw.org
+        if aRest.length
+          details.more
+            summary +#{aRest.length} more
+            each aw in aRest
+              .row
+                .yr= aw.year
+                .what
+                  if aw.link
+                    b: a(href=aw.link)= aw.name
+                  else
+                    b= aw.name
+                  span!= aw.blurb_html
+                .where= aw.org
 
       //- ARTICLES
       .block.articles
@@ -137,7 +160,6 @@ html(lang='en')
           div
             b= education.institution
             span= education.majors
-            span= 'courses: ' + education.courses
 
       //- STACK
       .block

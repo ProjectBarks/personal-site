@@ -37,27 +37,6 @@ h1{font-size:14px;font-weight:500;margin:0 0 4px}
 .meta{color:var(--muted);margin-bottom:24px}
 .meta span{margin-right:18px}
 
-.now-line{
-  display:inline-flex;align-items:center;gap:8px;
-  color:var(--ink);font-size:13px;
-  margin-bottom:32px;
-  padding:5px 12px;
-  border:1px solid var(--rule);
-  border-radius:4px;
-  background:rgba(46,91,255,.06);
-}
-.now-line .dot{
-  width:7px;height:7px;border-radius:50%;background:var(--accent);
-  box-shadow:0 0 8px var(--accent), 0 0 0 0 rgba(46,91,255,.4);
-  animation:pulse 2.4s cubic-bezier(.5,0,.5,1) infinite;
-}
-@keyframes pulse{
-  0%   { box-shadow:0 0 8px var(--accent), 0 0 0 0   rgba(46,91,255,.45); }
-  70%  { box-shadow:0 0 8px var(--accent), 0 0 0 8px rgba(46,91,255,0); }
-  100% { box-shadow:0 0 8px var(--accent), 0 0 0 0   rgba(46,91,255,0); }
-}
-.now-line b{color:var(--accent);font-weight:500}
-
 .block{margin:32px 0}
 .block h2{
   font-size:13px;font-weight:500;color:var(--accent);
@@ -72,6 +51,23 @@ h1{font-size:14px;font-weight:500;margin:0 0 4px}
   padding:7px 0;border-bottom:1px dashed var(--rule);align-items:baseline;
 }
 .row:last-child{border-bottom:none}
+
+/* "+ N more" collapse for sections > 10 items */
+.more{display:block;margin:0;border-bottom:1px dashed var(--rule)}
+.more[open]{border-bottom:none}
+.more > .row{border-top:1px dashed var(--rule);border-bottom:none}
+.more > .row:nth-of-type(2){border-top:none}
+.more summary{
+  list-style:none;cursor:pointer;
+  padding:8px 0;
+  color:var(--accent);font-size:12px;letter-spacing:0.04em;
+  user-select:none;
+}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"[ ";color:var(--muted)}
+.more summary::after{content:" · click to expand ]";color:var(--muted)}
+.more[open] summary::after{content:" · click to collapse ]";color:var(--muted)}
+.more summary:hover{background:rgba(46,91,255,.10)}
 .row .yr{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
 .row .what b{color:var(--ink);font-weight:500}
 .row .what span{color:var(--muted);display:block;font-size:13px;margin-top:1px}
