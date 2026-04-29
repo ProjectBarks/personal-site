@@ -1,0 +1,165 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title= meta.title
+    meta(name='description' content=meta.description)
+    meta(name='theme-color' content=meta.theme_color)
+
+    link(rel='icon' type='image/x-icon' href='./images/favicons/favicon.ico')
+    link(rel='icon' type='image/png' sizes='16x16' href='./images/favicons/favicon-16x16.png')
+    link(rel='icon' type='image/png' sizes='32x32' href='./images/favicons/favicon-32x32.png')
+    link(rel='apple-touch-icon' sizes='180x180' href='./images/favicons/apple-touch-icon-180x180.png')
+    link(rel='apple-touch-icon' sizes='152x152' href='./images/favicons/apple-touch-icon-152x152.png')
+    link(rel='apple-touch-icon' sizes='120x120' href='./images/favicons/apple-touch-icon-120x120.png')
+
+    meta(property='og:title' content=meta.title)
+    meta(property='og:description' content=meta.og_description)
+    meta(property='og:type' content='website')
+    meta(property='og:url' content=meta.url)
+
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap')
+    link(rel='stylesheet' href='./style.css')
+
+  body
+    main.wrap
+
+      .prompt
+        b= shell.prompt
+        |  :~$ #{shell.cmd}
+        span.cursor
+
+      pre.ascii= ascii
+
+      h1 #{name} — #{title}
+
+      .meta
+        each chip in meta_chips
+          span= chip
+
+      .now-line
+        span.dot(aria-hidden='true')
+        span
+          b now
+          |  ·
+          != now_html
+
+      p.lede!= lede_html
+
+      hr
+
+      //- WORK
+      .block
+        h2
+          | work&nbsp;
+          span.count — #{work.length} roles
+        each w in work
+          .row
+            .yr= w.year
+            .what
+              if w.link
+                b: a(href=w.link)= w.name
+              else
+                b= w.name
+              span!= w.role_html
+            .where= w.location
+
+      //- ACTIVITIES
+      .block
+        h2
+          | activities&nbsp;
+          span.count — #{activities.length}
+        each a in activities
+          .row
+            .yr= a.year
+            .what
+              if a.link
+                b: a(href=a.link)= a.name
+              else
+                b= a.name
+              span!= a.role_html
+            .where= a.location
+
+      //- PROJECTS
+      .block
+        h2
+          | projects&nbsp;
+          span.count — #{projects.length}
+        each p in projects
+          .row(id=p.id)
+            .yr= p.year
+            .what
+              if p.link
+                b: a(href=p.link)= p.name
+              else
+                b= p.name
+              span!= p.blurb_html
+            .where= p.scope
+
+      //- AWARDS
+      .block
+        h2
+          | awards&nbsp;
+          span.count — #{awards.length}
+        each aw in awards
+          .row
+            .yr= aw.year
+            .what
+              if aw.link
+                b: a(href=aw.link)= aw.name
+              else
+                b= aw.name
+              span!= aw.blurb_html
+            .where= aw.org
+
+      //- ARTICLES
+      .block.articles
+        h2
+          | articles &amp; research&nbsp;
+          span.count — #{articles.length}
+        each ar in articles
+          .row
+            div
+              if ar.link
+                b: a(href=ar.link)= ar.title
+              else
+                b= ar.title
+              span= ar.blurb
+
+      //- EDUCATION
+      .block
+        h2 education
+        .edu
+          .yr= education.year
+          div
+            b= education.institution
+            span= education.majors
+            span= 'courses: ' + education.courses
+
+      //- STACK
+      .block
+        h2 stack
+        .prompt(style='margin-bottom:8px') ~/lang $
+        .pills
+          each l in stack.languages_primary
+            span.pill.lang= l
+          each l in stack.languages_secondary
+            span.pill= l
+        .prompt(style='margin:14px 0 8px') ~/tools $
+        .pills
+          each f in stack.frameworks
+            span.pill= f
+
+      hr
+      footer
+        span.prompt
+          b= shell.prompt
+          |  :~$ contact
+        span
+          each c, i in contact
+            if i > 0
+              |  ·
+            a(href=c.href)= c.label

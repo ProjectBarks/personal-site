@@ -1,46 +1,24 @@
 {
-  "name": "Resume",
-  "version": "1.7.2",
+  "name": "brandonbarker-me",
+  "version": "2.0.0",
+  "description": "brandonbarker.me — single-page terminal aesthetic, JSON-driven, zero webpack.",
+  "private": true,
+  "main": "build.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ProjectBarks/material-resume.git"
+    "url": "https://github.com/ProjectBarks/personal-site.git"
   },
-  "scripts": {
-    "start": "webpack-dev-server --hot --watch --mode development",
-    "build": "webpack --mode production",
-    "preview": "http-server ./build/ -o",
-    "release": "rm -rf ./build/ && npm run build && PACKAGE_VERSION=$(node -p -e 'require(\"./package.json\").version') && gh-pages -d \"./build/\" -r \"git@github.com:ProjectBarks/projectbarks.github.io.git\" -m \"Release version $PACKAGE_VERSION\" -b master"
-  },
-  "main": "index.html",
   "author": "Brandon Barker <brandon@brandonbarker.me> (https://brandonbarker.me/)",
   "license": "MIT",
-  "dependencies": {
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
-    "materialize-css": "^1.0.0"
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && http-server ./build -p 4747 -o -s",
+    "preview": "http-server ./build -p 4747 -o -s",
+    "release": "npm run build && gh-pages -d build -r https://github.com/ProjectBarks/projectbarks.github.io.git -m \"Release v$npm_package_version\" -b master"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^4.5.2",
-    "css-loader": "^1.0.0",
-    "favicons-webpack-plugin": "0.0.9",
-    "file-loader": "^2.0.0",
-    "gh-pages": "^2.0.1",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "image-webpack-loader": "^4.3.1",
-    "imagemin-webp-webpack-plugin": "^1.0.2",
-    "loader-utils": "^1.2.3",
-    "mini-css-extract-plugin": "^0.4.3",
-    "node-sass": "^4.9.3",
-    "pug": "^2.0.4",
-    "pug-html-loader": "^1.1.5",
-    "purgecss-webpack-plugin": "^1.6.0",
-    "raw-loader": "^0.5.1",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.0",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.8.0",
-    "webpack-pwa-manifest": "^3.7.1"
+    "gh-pages": "^6.1.1",
+    "http-server": "^14.1.1",
+    "pug": "^3.0.3"
   }
 }

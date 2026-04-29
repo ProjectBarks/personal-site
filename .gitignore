@@ -107,4 +107,5 @@ build
 
 .publish
 
-package-lock.json
+package-lock.json/build
+/node_modules

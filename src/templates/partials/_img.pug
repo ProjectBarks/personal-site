@@ -1,6 +1,0 @@
-mixin img(src, alt=null)
-    picture
-        - const name = src.split(/\/|\./).reverse()[1];
-        source(srcset='images/' + name + '.webp', type='image/webp')
-        source(srcset='images/' + name + '.jpeg', type='image/jpeg')
-        img(src=src, alt=alt)

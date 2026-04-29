@@ -1,8 +1,0 @@
-//- location
-.col.s2.right-align.fact-icon
-    i.material-icons.small place
-.col.s10.facts-content-col
-    a(href= 'http://maps.google.com/maps?q=' + locals.address.country + '+' + locals.address.state + '+' + locals.address.city, target='_blank', rel='noopener')
-        h5.facts-content-lg
-            | #{locals.address.city}, #{locals.address.state}
-        p.facts-content-sm #{locals.address.country}

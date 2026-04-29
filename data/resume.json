@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Brandon Barker — Software Engineer",
+    "description": "Software engineer at Uber building software that maps the world. Tinkerer, inventor, NYC.",
+    "og_description": "Building software that maps the world. SWE at Uber, NYC.",
+    "url": "https://brandonbarker.me/",
+    "theme_color": "#2e5bff"
+  },
+  "name": "Brandon Barker",
+  "title": "software engineer",
+  "shell": {
+    "prompt": "brandon@nyc",
+    "cmd": "cat resume.txt"
+  },
+  "ascii": " ___                  _              ___           _\n| _ )_ _ __ _ _ _  __| |___ _ _     | _ ) __ _ _ _| |_____ _ _\n| _ \\ '_/ _` | ' \\/ _` / _ \\ ' \\    | _ \\/ _` | '_| / / -_) '_|\n|___/_| \\__,_|_||_\\__,_\\___/_||_|   |___/\\__,_|_| |_\\_\\___|_|",
+  "meta_chips": ["~/nyc", "uber/marketplace", "wcu '21", "est. 2001"],
+  "now_html": "software engineer at uber, new york — marketplace data &amp; intelligence",
+  "lede_html": "tinkerer, inventor, nerd, full-time software engineer. building tools that map the world — from <a href=\"#prostheticarm\">prosthetic arms</a> and <a href=\"#boostogy\">educational learning platforms</a>, to <a href=\"#ioculist\">eye exams</a> and <a href=\"https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274\">self-driving HD maps</a>. innovating for the future and pushing the boundaries of what i know — every year.",
+
+  "work": [
+    { "year": "2021 →", "name": "uber",      "role_html": "swe · marketplace data &amp; intelligence — full-time, post-grad",                                        "location": "new york" },
+    { "year": "2020",   "name": "uber",      "role_html": "swe intern — architected dynamic <a href=\"https://eng.uber.com/visualizing-city-cores-with-h3/\">h3 hexagon</a> clustering for ml experimentation", "location": "san francisco" },
+    { "year": "2019",   "name": "cesium",    "role_html": "swe intern — webodm + blender + 3ds max → cesium ion 3d tiles. shipped in cesiumjs 1.61.",                  "location": "philadelphia" },
+    { "year": "2018",   "name": "comma.ai",  "link": "https://comma.ai", "role_html": "swe intern — mapping engine for 5m+ miles of self-driving data; full-stack dashboard for george hotz's kit", "location": "san francisco" },
+    { "year": "2017",   "name": "dokkio",    "role_html": "swe intern — cross-cloud doc search; html5 preview engine for hundreds-of-pages docs; analyzed 2tb",        "location": "san francisco" },
+    { "year": "2016",   "name": "yurgosky",  "role_html": "swe intern — salesforce integrations for teach for america + robinhood foundation",                          "location": "new york" },
+    { "year": "2015",   "name": "airphrame", "role_html": "swe intern — aerial mapping + uav obstacle avoidance; live-zip micro-service for 100gb consolidations",      "location": "san francisco" },
+    { "year": "2014",   "name": "cloudmine", "role_html": "swe intern — hipaa android api + docker-based ci system for staging/prod testing",                            "location": "philadelphia" }
+  ],
+
+  "activities": [
+    { "year": "2018 →",  "name": "hackwcu",                "link": "https://hackwcu.org/", "role_html": "founder &amp; lead organizer — wcu's first hackathon. 300 reg, 150 attended, $20k raised in 3 months.", "location": "wcu" },
+    { "year": "2017 →",  "name": "cs club",                "role_html": "vice president — events, internships pipeline, innovate maker space ($10k+ hardware).",                "location": "wcu" },
+    { "year": "2017 →",  "name": "investment club",        "role_html": "analyst — evaluated $20k+ in stocks; pitches representing 50% growth since recommendation.",            "location": "wcu" },
+    { "year": "2016",    "name": "mighty moose ice hockey","role_html": "head of technology — non-profit web platform migration + dev.",                                       "location": "philadelphia" },
+    { "year": "2014—17", "name": "stemhacks",              "role_html": "founder &amp; lead organizer — first high-school hackathon in pa. $10k sponsorship, 100+ attendees y1.","location": "stem academy" },
+    { "year": "2011—17", "name": "out of the box robotics","role_html": "lead software developer — ftc team, autonomous + drive code; mentor; east regional competitor.",       "location": "coatesville" }
+  ],
+
+  "projects": [
+    { "id": "elderlyf",          "year": "2020", "name": "elderlyf",                                                                                                          "blurb_html": "intelligent walker. slam + haptic feedback + jetson nano + realsense. pennapps top 10.", "scope": "~/hardware" },
+    { "id": "elderly-vibrations","year": "2019", "name": "elderly vibrations",                                                                                                "blurb_html": "path guidance for elderly. android + arcore + arduino + bluetooth haptics. dragonhacks.", "scope": "~/hardware" },
+    { "id": "ramily",            "year": "2020", "name": "ramily",                  "link": "https://app.wcuramily.com",                                                       "blurb_html": "pairing wcu student parents with student sitters. mobile app, material design.",          "scope": "~/mobile" },
+    { "id": "entium",            "year": "2019", "name": "entium",                  "link": "https://github.com/commaai/entium",                                              "blurb_html": "entwine → 3d tiles converter for cesium. octree culling, quantization, instancing. open source.", "scope": "~/cesium" },
+    { "id": "loopbox",           "year": "2019", "name": "loopbox",                 "link": "https://devpost.com/software/vc-investment-tool",                                "blurb_html": "nlp smart-form for vc investment curation. dual-lstm semantic similarity, react frontend.", "scope": "~/ml" },
+    { "id": "poketwatch",        "year": "2019", "name": "poket watch",             "link": "https://devpost.com/software/poket-watch",                                       "blurb_html": "eyes for the visually impaired. react native + tensorflow + azure. voice-driven scene narration.", "scope": "~/mobile" },
+    { "id": "titansofnuclear",   "year": "2019", "name": "nuclear visualizer",      "link": "https://map.titansofnuclear.com/",                                               "blurb_html": "1,000+ nuclear-industry companies on a mapbox static site. fuzzy search.",                  "scope": "~/maps" },
+    { "id": "ycdsmatcher",       "year": "2017", "name": "ycds matcher",            "link": "https://devpost.com/software/ycdsmatcher",                                       "blurb_html": "former-students search engine. selenium scraper across fb graph, whitepages, pipl. ycdshacks winner.", "scope": "~/data" },
+    { "id": "vibez",             "year": "2016", "name": "vibez",                                                                                                            "blurb_html": "friends through concerts. angularjs + ionic + nodejs. outsidelands hacks.",                "scope": "~/social" },
+    { "id": "fancyprox",         "year": "2016", "name": "fancy prox",              "link": "http://fancyprox1.appspot.com/",                                                  "blurb_html": "simple available web proxy on google app engine, with caching. python + webapp2.",          "scope": "~/web" },
+    { "id": "mytransfer",        "year": "2016", "name": "mytransfer",                                                                                                        "blurb_html": "chrome extension that reverse-engineers myhomework to sync from schoology / edmodo / blackboard.", "scope": "~/extension" },
+    { "id": "stemclasses",       "year": "2016", "name": "stem classes",            "link": "https://github.com/ProjectBarks/STEMClasses",                                    "blurb_html": "school-schedule + class-time-remaining tool. native code injection for notifications. 800+ users.", "scope": "~/android" },
+    { "id": "ioculist",          "year": "2014", "name": "iOculist",                "link": "https://github.com/springle/iOculist",                                           "blurb_html": "snellen-formula eye exam on a phone. ios + android, voice recognition. hackbca 2nd.",       "scope": "~/mobile" },
+    { "id": "boostogy",          "year": "2015", "name": "boostogy",                "link": "https://chrome.google.com/webstore/detail/boostogy/kggdhabjkonkgnmmcnbjeiifllidfgde", "blurb_html": "chrome extension that re-skins schoology. circle icons, hidden classes, infinite scroll, theme strip.", "scope": "~/extension" },
+    { "id": "wordiel",           "year": "2018", "name": "wordiel",                 "link": "https://github.com/ProjectBarks/Wordiel",                                        "blurb_html": "collision-based word-cloud generator. quadtree, math 2d. open-source api.",                "scope": "~/java" },
+    { "id": "middlemeets",       "year": "2015", "name": "middle meets",            "link": "https://bitbucket.org/ProjectBarks/middlemeets",                                 "blurb_html": "android app — meet at a center-point of a friend group. java restful + yelp + google places.", "scope": "~/android" },
+    { "id": "stemhacks",         "year": "2016", "name": "stemhacks admin",         "link": "https://github.com/ProjectBarks/STEMHacks-Admin",                                "blurb_html": "hackathon-team dashboard — emailer, chat, broadcast, sponsor support. gae + jquery + bootstrap.", "scope": "~/web" },
+    { "id": "ftcscouter",        "year": "2014", "name": "ftc scouter",             "link": "https://github.com/ProjectBarks/OOTBScouter",                                    "blurb_html": "match-scoring + analytics for ftc robotics. android + json + mysql + tableau.",            "scope": "~/android" },
+    { "id": "beatsync",          "year": "2015", "name": "beatsync",                "link": "https://github.com/beatsync",                                                    "blurb_html": "seamless audio sync over the web. nodejs + jquery + soundcloud + custom protocol.",        "scope": "~/web" },
+    { "id": "laugher",           "year": "2015", "name": "the laugher",             "link": "https://github.com/ProjectBarks/TheLaugher",                                    "blurb_html": "android app + gae host that scrapes and classifies jokes via a website bot.",              "scope": "~/android" },
+    { "id": "infinitycache",     "year": "2014", "name": "infinity cache",          "link": "https://github.com/ProjectBarks/infinity-cache",                                "blurb_html": "annotation-driven cache lib for android. clean class structure for short-term object storage.", "scope": "~/lib" },
+    { "id": "convoanalyzer",     "year": "2015", "name": "conversation analyser",   "link": "https://github.com/ProjectBarks/PersonalityEvaluation",                          "blurb_html": "nlp on facebook conversations — subject extraction, sentiment. nltk + d3 + node + gae.",    "scope": "~/nlp" },
+    { "id": "screenshot",        "year": "2015", "name": "bitbar screenshot",       "link": "https://getbitbar.com/plugins/System/screenshot.1d.py",                          "blurb_html": "quick screenshot tool on bitbar. applescript + shell + python + dock framework.",          "scope": "~/macos" },
+    { "id": "dynapp",            "year": "2014", "name": "dynapp",                  "link": "https://github.com/dynapp",                                                      "blurb_html": "on-the-fly android code loading. maven plugin + dynamic class loader. java.",              "scope": "~/android" },
+    { "id": "prostheticarm",     "year": "2011", "name": "mind-control prosthetic arm",                                                                                       "blurb_html": "eeg-driven lego prosthetic. emotive epoc + bluetooth + c++ pattern recognition. dvsc 2nd.","scope": "~/hardware" }
+  ],
+
+  "awards": [
+    { "year": "2020", "name": "top 50 hacker",                          "link": "https://top.mlh.io/2020/profiles/brandon-barker",                                            "blurb_html": "major league hacking — 1 of 50 of 100,000+ hackathon participants",                          "org": "mlh" },
+    { "year": "2020", "name": "1871 award",                             "link": "https://www.wcupa.edu/_services/STU/1871award.aspx",                                         "blurb_html": "wcu — 71 of 11,000 students recognized for academics + leadership + community + career",     "org": "wcu" },
+    { "year": "2020", "name": "repair the world scholarship",           "link": "https://www.wcupa.edu/sciences-mathematics/computerScience/repairTheWorld.aspx",            "blurb_html": "1 of 4 wcu cs majors selected for high gpa + applied-cs vision",                              "org": "wcu cs" },
+    { "year": "2019", "name": "top 10 · best hardware · best health",   "link": "http://2019f.pennapps.com/",                                                                "blurb_html": "pennapps — top 10 of 1,200+; engineered slam-haptic assistive device for cross-space nav",  "org": "pennapps" },
+    { "year": "2019", "name": "organizers' choice · best accessibility","link": "https://dragonhacks.org/",                                                                  "blurb_html": "dragonhacks — arcore path-keeping system for visually impaired seniors",                    "org": "dragonhacks" },
+    { "year": "2018", "name": "benjamin e. faber award",                "link": "https://www.wcupa.edu/sciences-mathematics/mathematics/banquet2018.aspx",                   "blurb_html": "wcu math department scholarship for exceptional minor students",                            "org": "wcu math" },
+    { "year": "2017", "name": "best ycds hack",                         "link": "http://www.ycphacks.io/",                                                                    "blurb_html": "ycp hacks — big-data app for finding people from minimal info via fb / whitepages / pipl", "org": "ycp hacks" },
+    { "year": "2017", "name": "control award",                          "link": "https://www.firstinspires.org/about/press-room/caps-off-worlds-largest-celebration-of-stem-for-students", "blurb_html": "ftc world competition, st. louis",                                                       "org": "ftc worlds" },
+    { "year": "2015", "name": "1st place",                                                                                                                                    "blurb_html": "jpmorgan chase &amp; co — gamified-scholarships app for underprivileged kids",              "org": "jpmc" },
+    { "year": "2014", "name": "2nd place",                                                                                                                                    "blurb_html": "hackbca — iOculist eye-acuity app, won within 24 hours; inspired stemhacks",               "org": "hackbca" },
+    { "year": "2011", "name": "2nd place",                                                                                                                                    "blurb_html": "delaware valley science convention — mind-control prosthetic; navy, army, engineering excellence; broadcom masters invite", "org": "dvsc" }
+  ],
+
+  "articles": [
+    { "title": "wcu junior produces 3d protective gear for frontline workers",     "link": "https://www.wcupa.edu/president/bBarker.aspx",                "blurb": "3d printers in brandon's basement print covid-19 face shields, 20+ hrs/day, 7 days/week." },
+    { "title": "share massive drone captures directly from webodm with cesium ion","link": "https://cesium.com/blog/2019/08/06/webodm-ships-with-cesium-ion/", "blurb": "integration: webodm-generated point clouds, 3d models, terrain → cesium ion in global geospatial context." },
+    { "title": "massive models from blender with cesium ion",                      "link": "https://cesium.com/blog/2019/07/08/blender-addon/",            "blurb": "blender → gltf → ion add-on, using the official khronos exporter for streaming on the web." },
+    { "title": "hd maps for the masses",                                           "link": "https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274", "blurb": "open-source comma maps + entium, visualizing recorded paths and lane markings beyond paywalls." },
+    { "title": "quad trees vs spatial hashes",                                     "link": "./downloads/quadtree_spatialhash.pdf",                          "blurb": "collision-detection algorithm comparison: bucket-based vs recursive subdivision. (pdf)" }
+  ],
+
+  "education": {
+    "year": "2017—21",
+    "institution": "west chester university of pennsylvania",
+    "majors": "b.s. computer science · b.s. business management · minor mathematics",
+    "courses": "parallel computing (mat 581) · nlp (csc 577) · cryptography (mat 415) · computer algebra (mat 413) · software engineering (mat 402) · programming paradigms (csc 345) · linear algebra (mat 311)"
+  },
+
+  "stack": {
+    "languages_primary":  ["python", "javascript / typescript", "java", "html / css / less"],
+    "languages_secondary":["bash", "c#", "c++", "mathematica", "visualforce", "haskell"],
+    "frameworks": ["aws", "android", "arcore", "bootstrap", "cesium", "django", "docker", "flask", "git", "gae", "gwt", "gradle", "grunt", "heroku", "intel realsense", "jquery", "mapbox", "maven", "netty", "node.js", "numpy", "postgres", "react", "rest", "semantic ui", "sql", "twilio", "webgl", "webpack"]
+  },
+
+  "contact": [
+    { "label": "email",     "href": "mailto:contact@brandonbarker.me" },
+    { "label": "github",    "href": "https://github.com/ProjectBarks" },
+    { "label": "linkedin",  "href": "https://www.linkedin.com/in/projectbarks/" },
+    { "label": "instagram", "href": "https://www.instagram.com/brandonbarker15/" },
+    { "label": "resume",    "href": "./downloads/brandon_barker_resume_2020.pdf" }
+  ]
+}
