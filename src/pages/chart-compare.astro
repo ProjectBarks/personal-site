@@ -1,0 +1,97 @@
+---
+// Build-time comparison harness for the cost-delta chart: the hand-rolled SVG
+// against the Observable Plot rendering, same data, same figure chrome. The
+// toggle is a pair of radio inputs and sibling selectors, so this page ships
+// zero client JavaScript like the rest of the site.
+import Base from '../layouts/Base.astro';
+import CostDeltaCI from '../components/charts/CostDeltaCI.astro';
+import CostDeltaCIPlot from '../components/charts/CostDeltaCIPlot.astro';
+---
+
+<Base title="chart comparison" description="Hand-rolled SVG against Observable Plot, same data.">
+  <main class="post">
+    <p class="back"><a href="/">back</a></p>
+    <h1>cost-delta chart, two renderings</h1>
+    <p class="lede">
+      Identical numbers from a shared data module. The only difference is what drew the SVG.
+      Both are static markup produced at build time.
+    </p>
+
+    <div class="cmp">
+      <input type="radio" name="cmp" id="cmp-legacy" checked />
+      <input type="radio" name="cmp" id="cmp-plot" />
+      <input type="radio" name="cmp" id="cmp-both" />
+      <div class="cmp-bar" role="group" aria-label="choose a rendering">
+        <label for="cmp-legacy">hand-rolled</label>
+        <label for="cmp-plot">observable plot</label>
+        <label for="cmp-both">both</label>
+      </div>
+
+      <section class="pane pane-legacy">
+        <p class="pane-tag">hand-rolled SVG</p>
+        <CostDeltaCI />
+      </section>
+
+      <section class="pane pane-plot">
+        <p class="pane-tag">observable plot, serialised at build time</p>
+        <CostDeltaCIPlot />
+      </section>
+    </div>
+  </main>
+</Base>
+
+<style is:global>
+  .cmp { margin: 28px 0 40px; }
+  .cmp > input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .cmp-bar {
+    display: inline-flex; gap: 2px; margin-bottom: 22px;
+    border: 1px solid var(--rule); border-radius: 6px; padding: 3px;
+  }
+  .cmp-bar label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px; color: var(--muted);
+    padding: 7px 14px; border-radius: 4px; cursor: pointer;
+    user-select: none; transition: color .12s, background .12s;
+  }
+  .cmp-bar label:hover { color: var(--ink); background: var(--accent-soft); }
+
+  #cmp-legacy:checked ~ .cmp-bar label[for='cmp-legacy'],
+  #cmp-plot:checked   ~ .cmp-bar label[for='cmp-plot'],
+  #cmp-both:checked   ~ .cmp-bar label[for='cmp-both'] {
+    background: var(--accent); color: #0a0b0d; font-weight: 600;
+  }
+  /* keyboard users get a visible ring on the label the focused radio drives */
+  #cmp-legacy:focus-visible ~ .cmp-bar label[for='cmp-legacy'],
+  #cmp-plot:focus-visible   ~ .cmp-bar label[for='cmp-plot'],
+  #cmp-both:focus-visible   ~ .cmp-bar label[for='cmp-both'] {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+
+  .cmp .pane { display: none; }
+  #cmp-legacy:checked ~ .pane-legacy,
+  #cmp-plot:checked   ~ .pane-plot,
+  #cmp-both:checked   ~ .pane { display: block; }
+  #cmp-both:checked   ~ .pane + .pane { margin-top: 40px; border-top: 1px solid var(--rule); }
+
+  .pane-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; color: var(--chart-warm-text);
+    letter-spacing: .04em; margin: 22px 0 0;
+  }
+
+  /* Plot emits a viewBox, so text scales with the box. Two static renders at
+     two widths keep label text at its true size on both phone and desktop. */
+  .fig-plot .plot-narrow { display: none; }
+  @media (max-width: 560px) {
+    .fig-plot .plot-wide { display: none; }
+    .fig-plot .plot-narrow { display: block; }
+  }
+  .fig-plot .plot-wide svg,
+  .fig-plot .plot-narrow svg { display: block; width: 100%; height: auto; }
+  .fig-plot .plot-wide svg text,
+  .fig-plot .plot-narrow svg text {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
