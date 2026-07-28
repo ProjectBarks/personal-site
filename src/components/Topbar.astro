@@ -1,0 +1,23 @@
+---
+// src/components/Topbar.astro
+import resume from '../data/resume.json';
+
+interface Props {
+  active: 'home' | 'cv' | 'none';
+  cmd: string;
+}
+const { active, cmd } = Astro.props;
+
+const items: [string, string, 'home' | 'cv'][] = [
+  ['/', '~/root', 'home'],
+  ['/cv.html', '~/cv', 'cv'],
+];
+---
+<div class="topbar" id="top">
+  <span class="prompt"><b>{resume.shell.prompt}</b> :~$ {cmd}<span class="cursor"></span></span>
+  <nav class="tabs">
+    {items.map(([href, label, key]) => (
+      <a href={href} class={key === active ? 'active' : undefined}>{label}</a>
+    ))}
+  </nav>
+</div>

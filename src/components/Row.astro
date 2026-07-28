@@ -1,0 +1,27 @@
+---
+// src/components/Row.astro
+import { deEm, isExternalHref } from '../lib/text';
+
+interface Props {
+  year: string;
+  name: string;
+  href?: string;
+  bodyHtml: string;
+  where?: string;
+  id?: string;
+}
+const { year, name, href, bodyHtml, where, id } = Astro.props;
+const external = href ? isExternalHref(href) : false;
+---
+<div class="row" id={id}>
+  <div class="yr">{deEm(year)}</div>
+  <div class="what">
+    <b>
+      {href
+        ? <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>{name}</a>
+        : name}
+    </b>
+    <span set:html={deEm(bodyHtml)} />
+  </div>
+  {where && <div class="where">{deEm(where)}</div>}
+</div>

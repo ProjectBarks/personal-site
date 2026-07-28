@@ -1,0 +1,61 @@
+---
+// src/layouts/Base.astro
+import '../styles/global.css';
+import resume from '../data/resume.json';
+import Topbar from '../components/Topbar.astro';
+
+interface Props {
+  active: 'home' | 'cv' | 'none';
+  title: string;
+  ogUrl: string;
+  cmd: string;
+  backToTop?: boolean;
+}
+const { active, title, ogUrl, cmd, backToTop = false } = Astro.props;
+const m = resume.meta;
+const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label));
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={m.description} />
+  <meta name="theme-color" content={m.theme_color} />
+  <link rel="icon" type="image/x-icon" href="/images/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png" />
+  <meta property="og:title" content={m.title} />
+  <meta property="og:description" content={m.og_description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={ogUrl} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" />
+</head>
+<body>
+  <main class="wrap">
+    <Topbar active={active} cmd={cmd} />
+    <slot />
+    <hr />
+    <footer>
+      <span class="prompt"><b>{resume.shell.prompt}</b> :~$ contact</span>
+      <span>
+        {contact.map((c, i) => (
+          <>
+            {i > 0 && ' · '}
+            {/^https?:/i.test(c.href)
+              ? <a href={c.href} target="_blank" rel="noopener noreferrer">{c.label}</a>
+              : <a href={c.href}>{c.label}</a>}
+          </>
+        ))}
+      </span>
+      {backToTop && <span class="totop"><a href="#top">^ top</a></span>}
+    </footer>
+  </main>
+</body>
+</html>
