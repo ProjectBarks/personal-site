@@ -1,0 +1,68 @@
+---
+// src/pages/cv.astro
+import Base from '../layouts/Base.astro';
+import Row from '../components/Row.astro';
+import WritingList from '../components/WritingList.astro';
+import resume from '../data/resume.json';
+import { deEm } from '../lib/text';
+
+const chips = resume.meta_chips.filter((c) => !/est\.\s*2001/i.test(c));
+const byYearDesc = (a: { year: string }, b: { year: string }) =>
+  (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0);
+const projectsSorted = [...resume.projects].sort(byYearDesc);
+
+const ogUrl = resume.meta.url.replace(/\/?$/, '/') + 'cv.html';
+const jumpIds = ['projects', 'writing', 'work', 'activities', 'awards', 'education'];
+---
+<Base active="cv" title={`cv · ${resume.name}`} ogUrl={ogUrl} cmd="cat cv.txt" backToTop>
+  <h1>{resume.name.toLowerCase()}</h1>
+  <p class="role">{resume.title}</p>
+  <div class="meta">
+    {chips.map((c) => <span>{c}</span>)}
+  </div>
+
+  <nav class="jump" aria-label="sections">
+    {jumpIds.map((id) => <a href={`#${id}`}>{id}</a>)}
+  </nav>
+
+  <div class="block" id="projects">
+    <h2>projects</h2>
+    {projectsSorted.map((p) => (
+      <Row year={p.year} name={p.name} href={p.link} bodyHtml={p.blurb_html} where={p.scope} id={p.id} />
+    ))}
+  </div>
+
+  <WritingList id="writing" showHeading />
+
+  <div class="block" id="work">
+    <h2>work</h2>
+    {resume.work.map((w) => (
+      <Row year={w.year} name={w.name} href={w.link} bodyHtml={w.role_html} where={w.location} />
+    ))}
+  </div>
+
+  <div class="block" id="activities">
+    <h2>activities</h2>
+    {resume.activities.map((a) => (
+      <Row year={a.year} name={a.name} href={a.link} bodyHtml={a.role_html} where={a.location} />
+    ))}
+  </div>
+
+  <div class="block" id="awards">
+    <h2>awards</h2>
+    {resume.awards.map((a) => (
+      <Row year={a.year} name={a.name} href={a.link} bodyHtml={a.blurb_html} where={a.org} />
+    ))}
+  </div>
+
+  <div class="block" id="education">
+    <h2>education</h2>
+    <div class="edu">
+      <div class="yr">{deEm(resume.education.year)}</div>
+      <div>
+        <b>{resume.education.institution}</b>
+        <span>{resume.education.majors}</span>
+      </div>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,12 @@
+---
+// src/pages/404.astro
+import Base from '../layouts/Base.astro';
+import resume from '../data/resume.json';
+---
+<Base active="none" title={`404 · ${resume.name}`} ogUrl={resume.meta.url} cmd="cd /nope">
+  <p class="lede">no such file or directory.</p>
+  <p class="lede">
+    the path you asked for is not on this machine. try
+    <a href="/">~/root</a> or <a href="/cv.html">~/cv</a>.
+  </p>
+</Base>
