@@ -1,21 +1,20 @@
 # brandonbarker.me
 
-Source of [brandonbarker.me](https://brandonbarker.me) — a single-page,
-terminal-aesthetic personal site. JSON-driven, no build framework.
+Source of [brandonbarker.me](https://brandonbarker.me), a terminal-aesthetic
+personal site and blog, built with Astro and MDX.
 
 ```text
-data/resume.json   →  content (work · projects · awards · articles · stack · contact)
-src/index.pug      →  one Pug template (the whole page)
-src/style.css      →  one stylesheet
-src/assets/        →  static  (CNAME · favicons · resume PDFs · papers)
-build.js           →  ~30-line Node build
-build/             →  generated output, deployed to GitHub Pages
+src/data/resume.json  →  content (work, projects, awards, articles, contact)
+src/content/posts/    →  blog posts, one .mdx file each
+src/styles/global.css →  one stylesheet
+public/               →  static (CNAME, favicons, resume PDFs, papers)
+build/                →  generated output, deployed to GitHub Pages
 ```
 
 ## edit content
 
-Almost everything you'd want to change lives in **`data/resume.json`** — add a
-project, swap a link, fix a year, update the now-line.
+Almost everything you'd want to change lives in **`src/data/resume.json`**,
+add a project, swap a link, fix a year, update the now-line.
 
 ```bash
 npm install            # one-time
@@ -37,10 +36,29 @@ which serves at `https://projectbarks.github.io/` and redirects to
 
 | | |
 |---|---|
-| `npm run build`   | render `data/resume.json` + `src/index.pug` → `./build/` |
-| `npm run dev`     | build + serve on `:4747` |
+| `npm run build`   | build `src/pages` + `src/content/posts` → `./build/` |
+| `npm run dev`     | dev server with hot reload on `:4747` |
 | `npm run preview` | serve the existing `./build/` (no rebuild) |
 | `npm run release` | build + `gh-pages` push to the deploy repo |
+| `npm test`        | run `src/lib` unit tests |
+
+## write a post
+
+Add a file to `src/content/posts/your-slug.mdx`:
+
+```mdx
+---
+title: your post title
+date: 2026-08-01
+description: one sentence, shown in the writing list.
+---
+
+your post body, in markdown, with JSX available if you need it.
+```
+
+It appears at `/writing/your-slug.html`, merged into the writing list on both
+`/` and `/cv.html`, sorted by date alongside the outbound article links in
+`src/data/resume.json`.
 
 ## the design
 
@@ -57,19 +75,27 @@ which serves at `https://projectbarks.github.io/` and redirects to
 
 ```text
 .
-├── data/
-│   └── resume.json          ← edit this
 ├── src/
-│   ├── index.pug
-│   ├── style.css
-│   └── assets/
-│       ├── CNAME
-│       ├── images/favicons/
-│       └── downloads/
-│           ├── brandon_barker_resume_2020.pdf
-│           └── quadtree_spatialhash.pdf
+│   ├── data/resume.json     ← edit this (work, projects, awards, contact)
+│   ├── content/posts/*.mdx  ← write a post: add a file here
+│   ├── content.config.ts
+│   ├── layouts/Base.astro
+│   ├── components/
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── cv.astro
+│   │   ├── 404.astro
+│   │   └── writing/[...slug].astro
+│   ├── styles/global.css
+│   └── lib/text.js
+├── public/
+│   ├── CNAME
+│   ├── images/favicons/
+│   └── downloads/
+│       ├── brandon_barker_resume_2020.pdf
+│       └── quadtree_spatialhash.pdf
 ├── pdf-resume/              ← .docx + PDF source for the resume PDF
-├── build.js
+├── astro.config.mjs
 ├── package.json
 └── README.md
 ```
