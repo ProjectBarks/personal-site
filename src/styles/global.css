@@ -163,7 +163,7 @@ html{scroll-behavior:smooth}
   :root{--bg:#fff;--ink:#111;--dim:#333;--muted:#555;--accent:#000;--rule:#bbb;--accent-soft:transparent}
   body{background:#fff;color:#111;font-size:10pt;line-height:1.45}
   .wrap{max-width:none;padding:0}
-  .topbar,.jump,.cursor,.totop,.ascii{display:none}
+  .topbar,.jump,.cursor,.totop,.ascii,.back{display:none}
   h1.name{position:static;width:auto;height:auto;overflow:visible;
     clip:auto;clip-path:none;white-space:normal;font-size:20pt;color:#000}
   a{color:#000;border-bottom:none;text-decoration:underline}
@@ -172,3 +172,50 @@ html{scroll-behavior:smooth}
   .block h2{font-size:13pt;color:#000}
   .row{break-inside:avoid;padding:5pt 0}
 }
+
+/* ---- one top bar: shell prompt on the left, page tabs on the right ---- */
+.topbar{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:6px 22px;margin:0 0 30px;padding-bottom:14px;border-bottom:1px dashed var(--rule)}
+.tabs{display:flex;gap:22px;font-size:14px}
+.tabs a{color:var(--muted);border-bottom:none;position:relative;padding:2px 0}
+.tabs a:hover{color:var(--accent-text)}
+.tabs a.active{color:var(--ink)}
+.tabs a.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent)}
+.topbar + .ascii{margin-top:6px}
+
+/* ---- cv section index: the tall page needs a way in other than scrolling ---- */
+.jump{display:flex;flex-wrap:wrap;gap:8px 20px;margin:0 0 8px;font-size:14px}
+.jump a{color:var(--dim);border-bottom:1px dotted var(--rule)}
+.jump a:hover{color:var(--accent-text);border-bottom-color:var(--accent-text)}
+.block{scroll-margin-top:24px}
+.totop a{color:var(--muted);border-bottom:none}
+.totop a:hover{color:var(--accent-text)}
+
+/* ---- individual writing/<slug> post pages ------------------------------ */
+.back{margin:0 0 24px}
+.back a{color:var(--muted);border-bottom:none}
+.back a:hover{color:var(--accent-text)}
+.post .role{margin-bottom:24px}
+.prose{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  color:var(--ink);max-width:66ch;font-size:17px;line-height:1.7;
+}
+.prose p{margin:0 0 18px}
+.prose h2{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--accent);font-size:22px;margin:32px 0 14px;
+}
+.prose a{color:var(--accent-text)}
+.prose code{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:var(--panel);padding:2px 5px;border-radius:3px;font-size:15px;
+}
+.prose pre{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:var(--panel);padding:16px;border-radius:6px;overflow-x:auto;
+  font-size:14px;line-height:1.5;
+}
+.prose pre code{background:none;padding:0}
+/* a full-width color block instead of a border-left accent stripe */
+.prose blockquote{background:var(--accent-soft);padding:14px 18px;margin:0 0 18px;
+  border-radius:4px;color:var(--dim)}
