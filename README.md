@@ -64,7 +64,7 @@ It appears at `/writing/your-slug.html`, merged into the writing list on both
 
 - Background: warm-black `#0a0b0d`, with a soft cobalt aurora bleed in the corner.
 - Type: **JetBrains Mono** throughout.
-- Accent: a single cobalt `#2e5bff` — used on the prompt, the ASCII banner,
+- Accent: a single cobalt `#2e5bff`, used on the prompt, the ASCII banner,
   links, the live "now" pulse, and the blinking cursor. Nothing else.
 - Sections rendered as `## work`, `## projects`, `## awards`, etc.
 - A tiny dotted-line list per section, year tabular-aligned on the left.
@@ -102,14 +102,15 @@ It appears at `/writing/your-slug.html`, merged into the writing list on both
 
 ## history
 
-- **v.2.0** — terminal-blue redesign, dropped webpack, JSON → Pug → static.
-- **v.1.7** — last Materialize / Pug / webpack release. Source preserved in
+- **v.3.0**: Astro + MDX, self-hosted blog, one merged writing list.
+- **v.2.0**: terminal-blue redesign, dropped webpack, JSON → Pug → static.
+- **v.1.7**: last Materialize / Pug / webpack release. Source preserved in
   the git history (commit `943df4e` and earlier).
 
 ## DNS note
 
 `brandonbarker.me` is on Cloudflare. For GitHub Pages to serve it, the apex
-`A` records must point at GitHub Pages — either:
+`A` records must point at GitHub Pages, either:
 
 ```
 A  @  185.199.108.153
