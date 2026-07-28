@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "brandonbarker.me — single-page terminal aesthetic, JSON-driven, zero webpack.",
   "private": true,
+  "type": "module",
   "main": "build.js",
   "repository": {
     "type": "git",
