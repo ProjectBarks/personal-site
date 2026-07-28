@@ -2,7 +2,7 @@
 // The load-bearing chart: two mean per-task cost deltas with bootstrap CIs, on
 // one axis, with the A/A control's interval drawn as a shaded band across the
 // whole plot so you can see the treatment's mean land inside the noise.
-// Delta is off minus on, so positive means the proxy was cheaper.
+// Delta is off minus on, so positive means headroom was cheaper.
 const LO = -1, HI = 2;                      // dollars
 const x = (v) => ((v - LO) / (HI - LO)) * 100;
 const arms = [
@@ -62,8 +62,8 @@ const ticks = [-1, 0, 1, 2];
         {t < 0 ? `-$${Math.abs(t)}` : t === 0 ? '$0' : `+$${t}`}
       </text>
     ))}
-    <text class="t-note" x="0" y="196"><tspan class="c-wide">pricier with the proxy</tspan><tspan class="c-narrow">pricier</tspan></text>
-    <text class="t-note" x="100%" y="196" text-anchor="end"><tspan class="c-wide">cheaper with the proxy</tspan><tspan class="c-narrow">cheaper</tspan></text>
+    <text class="t-note" x="0" y="196"><tspan class="c-wide">pricier with headroom</tspan><tspan class="c-narrow">pricier</tspan></text>
+    <text class="t-note" x="100%" y="196" text-anchor="end"><tspan class="c-wide">cheaper with headroom</tspan><tspan class="c-narrow">cheaper</tspan></text>
   </svg>
   <div class="fig-stats">
     <div><b>on-cache, A/A control</b> n <i>25</i> &middot; Wilcoxon p <i>0.156</i> &middot; Cohen's dz <i>0.291</i> &middot; <i>17</i> cheaper / <i>8</i> pricier</div>

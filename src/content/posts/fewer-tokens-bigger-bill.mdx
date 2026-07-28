@@ -1,7 +1,7 @@
 ---
-title: fewer tokens, bigger bill
+title: "headroom: fewer tokens, bigger bill"
 date: 2026-07-28
-description: a proxy cut 39% of input tokens off an agentic coding benchmark and the bill did not move. prompt caching is why, and most savings meters cannot see it.
+description: headroom cut 39% of input tokens off an agentic coding benchmark and the bill did not move. prompt caching is why, and most savings meters cannot see it.
 ---
 
 import TokenSplit from '../../components/charts/TokenSplit.astro';
@@ -14,10 +14,10 @@ there is a category of tool that sits between your agent and the model and rewri
 the conversation history to make it smaller. the pitch is simple: fewer tokens in,
 smaller bill. the meter on the side of the box even tells you how much you saved.
 
-i ran one of these across a 25-task agentic coding benchmark, three ways, and the
-compression was real: 39% fewer input tokens. the bill did not move. on the subset
-where both arms did real work, compression was more expensive than sending the full
-history.
+i ran one of them, headroom, across a 25-task agentic coding benchmark, three ways,
+and the compression was real: 39% fewer input tokens. the bill did not move. on the
+subset where both arms did real work, compression was more expensive than sending the
+full history.
 
 the reason is prompt caching, and once you see it, the whole savings model inverts.
 
@@ -27,7 +27,7 @@ most benchmark writeups compare a treatment against a baseline and report the de
 that tells you nothing until you know how much the harness moves on its own.
 
 so the third arm was a control that changes the configuration without changing the
-work: the proxy is in the path, but in a mode where it compresses zero tokens by its
+work: headroom is in the path, but in a mode where it compresses zero tokens by its
 own accounting. baseline versus that control is the same configuration run twice. an
 A/A test.
 
@@ -85,9 +85,9 @@ tokens at $0.30 for the privilege of sending fewer tokens at $3.00.
 
 ## how the meter gets it wrong
 
-the tool reports its own savings, and it reported saving real money on this run. it
+headroom reports its own savings, and it reported saving real money on this run. it
 overstated by roughly 1.9x. the mechanism is worth describing precisely, because it
-is a general failure mode and not one tool's bug.
+is a general failure mode and not headroom's alone.
 
 <ClaimedVsRealized />
 
@@ -107,7 +107,7 @@ is not measuring savings, it is measuring activity.
 ## a dashboard cannot catch this
 
 there was a monitoring dashboard for this, fed by the same emitted metrics, and it
-showed a healthy savings rate. it was faithfully rendering the number the tool
+showed a healthy savings rate. it was faithfully rendering the number headroom
 emitted, which is exactly the problem.
 
 the dashboard reported cost saved at roughly twice the tokens removed. the same shape
