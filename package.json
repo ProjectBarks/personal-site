@@ -15,7 +15,7 @@
     "build": "astro build",
     "preview": "astro preview --port 4747",
     "release": "npm run build && gh-pages -d build -r https://github.com/ProjectBarks/projectbarks.github.io.git -m \"Release v$npm_package_version\" -b master",
-    "test": "node --test src/lib"
+    "test": "node --test src/lib/**/*.test.js"
   },
   "devDependencies": {
     "gh-pages": "^6.1.1"
