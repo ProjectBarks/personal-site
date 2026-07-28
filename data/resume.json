@@ -4,7 +4,7 @@
     "description": "Staff software engineer at Uber building software that maps the world. Tinkerer, inventor, NYC.",
     "og_description": "Building software that maps the world. Staff SWE at Uber, NYC.",
     "url": "https://brandonbarker.me/",
-    "theme_color": "#2e5bff"
+    "theme_color": "#5f82ff"
   },
   "name": "Brandon Barker",
   "title": "staff software engineer",
@@ -76,11 +76,11 @@
   ],
 
   "articles": [
-    { "title": "wcu junior produces 3d protective gear for frontline workers",     "link": "https://www.wcupa.edu/president/bBarker.aspx",                "blurb": "3d printers in brandon's basement print covid-19 face shields, 20+ hrs/day, 7 days/week." },
-    { "title": "share massive drone captures directly from webodm with cesium ion","link": "https://cesium.com/blog/2019/08/06/webodm-ships-with-cesium-ion/", "blurb": "integration: webodm-generated point clouds, 3d models, terrain → cesium ion in global geospatial context." },
-    { "title": "massive models from blender with cesium ion",                      "link": "https://cesium.com/blog/2019/07/08/blender-addon/",            "blurb": "blender → gltf → ion add-on, using the official khronos exporter for streaming on the web." },
-    { "title": "hd maps for the masses",                                           "link": "https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274", "blurb": "open-source comma maps + entium, visualizing recorded paths and lane markings beyond paywalls." },
-    { "title": "quad trees vs spatial hashes",                                     "link": "./downloads/quadtree_spatialhash.pdf",                          "blurb": "collision-detection algorithm comparison: bucket-based vs recursive subdivision. (pdf)" }
+    { "date": "2020-06-18", "title": "wcu junior produces 3d protective gear for frontline workers",     "link": "https://www.wcupa.edu/president/bBarker.aspx",                "blurb": "3d printers in brandon's basement print covid-19 face shields, 20+ hrs/day, 7 days/week." },
+    { "date": "2019-08-06", "title": "share massive drone captures directly from webodm with cesium ion","link": "https://cesium.com/blog/2019/08/06/webodm-ships-with-cesium-ion/", "blurb": "integration: webodm-generated point clouds, 3d models, terrain → cesium ion in global geospatial context." },
+    { "date": "2019-07-08", "title": "massive models from blender with cesium ion",                      "link": "https://cesium.com/blog/2019/07/08/blender-addon/",            "blurb": "blender → gltf → ion add-on, using the official khronos exporter for streaming on the web." },
+    { "date": "2018-08-17", "title": "hd maps for the masses",                                           "link": "https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274", "blurb": "open-source comma maps + entium, visualizing recorded paths and lane markings beyond paywalls." },
+    { "date": "2016-12-15", "title": "quad trees vs spatial hashes",                                     "link": "./downloads/quadtree_spatialhash.pdf",                          "blurb": "collision-detection algorithm comparison: bucket-based vs recursive subdivision. (pdf)" }
   ],
 
   "education": {
