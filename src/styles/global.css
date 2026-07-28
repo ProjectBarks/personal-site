@@ -7,6 +7,15 @@
   --accent:#5f82ff;      /*  5.7:1, fine for the 26px+ display text it carries */
   --accent-text:#7d99ff; /*  7.4:1, same hue, for links set at body size */
   --accent-soft:rgba(95,130,255,.14);
+  /* chart mark for "full price / money lost". OKLCH L 0.63 sits inside the dark
+     band, chroma clears the floor, and it is 5.9:1 on --bg and 29.3 OKLab from
+     the cobalt under protanopia, so the two marks never collapse. */
+  --chart-warm:#d0762e;
+  --chart-warm-text:#e0954f; /* 8.1:1, the same hue at label size */
+  /* de-emphasis mark for the control arm and for a claimed, unmeasured value.
+     Deliberately below the chroma floor: it is the "gray the rest" channel in an
+     emphasis chart, not a categorical slot. 5.5:1 on --bg. */
+  --chart-grey:#82879a;
   --rule:#383b45;
   /* banner is 63 monospace columns; 63 x 0.6021em advance = 38em. A face with a
      different advance needs a different divisor, so it lives here as a number. */
@@ -160,7 +169,7 @@ html{scroll-behavior:smooth}
 /* a cv gets printed. Dark ground either burns toner or, with backgrounds off,
    prints pale gray on white at ~2.5:1. Invert, and expose link targets. */
 @media print{
-  :root{--bg:#fff;--ink:#111;--dim:#333;--muted:#555;--accent:#000;--rule:#bbb;--accent-soft:transparent}
+  :root{--bg:#fff;--ink:#111;--dim:#333;--muted:#555;--accent:#000;--rule:#bbb;--accent-soft:transparent;--chart-warm:#777;--chart-warm-text:#555;--chart-grey:#aaa}
   body{background:#fff;color:#111;font-size:10pt;line-height:1.45}
   .wrap{max-width:none;padding:0}
   .topbar,.jump,.cursor,.totop,.ascii,.back{display:none}
@@ -219,3 +228,65 @@ html{scroll-behavior:smooth}
 /* a full-width color block instead of a border-left accent stripe */
 .prose blockquote{background:var(--accent-soft);padding:14px 18px;margin:0 0 18px;
   border-radius:4px;color:var(--dim)}
+
+/* ---- charts ------------------------------------------------------------
+   Every chart is inline SVG with NO viewBox: width is 100% and every x sits
+   at a percentage, so the plot stretches while font-size stays in real px.
+   A viewBox would scale an 11px tick down to 6px on a 375px screen. */
+.fig{margin:30px 0 34px;padding:0}
+/* the prose measure is 66ch; the figures take the full wrap so the plots get
+   ~170px more run without the text column getting harder to read */
+@supports (container-type:inline-size){.fig{width:100cqi}}
+.fig svg{display:block;width:100%}
+.fig text{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* a surface-coloured halo behind every glyph: labels sit over the zero rule and
+     the noise band, and a knockout is cleaner than nudging them off their mark */
+  paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+.fig .t-name{font-size:12px;fill:var(--dim)}
+.fig .t-val{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.fig .t-ax{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.fig .t-note{font-size:11px;fill:var(--muted)}
+.fig .t-emph{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}
+/* marks: cobalt is the subject, warm ochre is always "money at full price" */
+.fig .m-blue{fill:var(--accent)}
+.fig .m-warm{fill:var(--chart-warm)}
+.fig .m-grey{fill:var(--chart-grey)}
+.fig .s-blue{stroke:var(--accent)}
+.fig .s-grey{stroke:var(--chart-grey)}
+.fig .ring{stroke:var(--bg);stroke-width:2}
+.fig .grid{stroke:var(--rule);stroke-width:1}
+.fig .zero{stroke:var(--dim);stroke-width:1}
+.fig .band{fill:rgba(164,166,176,.09)}
+/* knocks the zero rule out of the label lines, so the rule reads only where it
+   is doing work, against the bars */
+.fig .knock{fill:var(--bg)}
+/* a heading strip over each plot, and the sentence-length caption under it */
+.fig-head{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;
+  color:var(--ink);margin:0 0 2px;font-weight:500}
+.fig-sub{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;
+  color:var(--muted);margin:0 0 10px}
+.fig figcaption{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--muted);
+  font-size:14px;line-height:1.6;margin-top:12px;max-width:64ch}
+.fig figcaption b{color:var(--dim);font-weight:600}
+.fig-pair{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.fig-key{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 10px;
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.fig-key span{display:inline-flex;align-items:center;gap:7px}
+.fig-key svg{width:auto;flex:none}
+/* the stat strip doubles as the table view: every plotted number is also here */
+.fig-stats{margin-top:14px;display:grid;gap:9px;
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:var(--muted)}
+.fig-stats div{border-top:1px solid var(--rule);padding-top:9px;line-height:1.6}
+.fig-stats b{color:var(--dim);font-weight:500;margin-right:10px}
+.fig-stats i{font-style:normal;color:var(--ink);font-variant-numeric:tabular-nums}
+.c-narrow{display:none}
+@media (max-width:640px){
+  /* the labels are real text, not scaled geometry, so they only need a step down */
+  .fig .t-name,.fig .t-val,.fig .t-emph{font-size:11px}
+  .fig .t-ax,.fig .t-note{font-size:10px}
+  .fig-pair{grid-template-columns:1fr;gap:22px}
+  .fig figcaption{font-size:13px}
+  .fig-stats{font-size:11px}
+  .c-wide{display:none}
+  .c-narrow{display:inline}
+}

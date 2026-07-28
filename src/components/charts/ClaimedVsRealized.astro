@@ -1,0 +1,53 @@
+---
+// What the meter claimed against what the run actually cost. Diverging from
+// zero, because the honest answer on the clean set is on the other side of it.
+const LO = -12, HI = 18;
+const x = (v) => ((v - LO) / (HI - LO)) * 100;
+const rows = [
+  { name: "claimed by the tool's meter", v: 15.41, cls: 'grey' },
+  { name: 'measured, all matched tasks', v: 8.13,  cls: 'blue' },
+  { name: 'measured, clean set only',    v: -8.98, cls: 'warm' },
+];
+const money = (v) => (v < 0 ? '-$' : '+$') + Math.abs(v).toFixed(2);
+const pitch = 46;
+const z = x(0);
+---
+<figure class="fig">
+  <p class="fig-head">savings on the run, as claimed and as measured</p>
+  <p class="fig-sub">dollars over the whole on-token arm</p>
+  <div class="fig-key">
+    <span><svg width="14" height="10" aria-hidden="true"><rect class="m-grey" x="0" y="1" width="14" height="8" rx="4"/></svg> claimed by the meter</span>
+    <span><svg width="14" height="10" aria-hidden="true"><rect class="m-blue" x="0" y="1" width="14" height="8" rx="4"/></svg> measured saving</span>
+    <span><svg width="14" height="10" aria-hidden="true"><rect class="m-warm" x="0" y="1" width="14" height="8" rx="4"/></svg> measured extra cost</span>
+  </div>
+  <svg height="176" role="img" aria-labelledby="cr-t cr-d">
+    <title id="cr-t">The meter claimed $15.41 saved; the matched tasks realised $8.13, and the clean set came out $8.98 more expensive than baseline.</title>
+    <desc id="cr-d">Three bars on one dollar axis crossing zero. The claim is the longest, the realised saving is roughly half of it, and the clean-set bar points the other way.</desc>
+    <line class="zero" x1={`${z}%`} x2={`${z}%`} y1="6" y2="134.5" />
+    {rows.map((r, i) => {
+      const lo = r.v < 0 ? x(r.v) : z;
+      const w = Math.abs(x(r.v) - z);
+      return (
+        <g>
+          <rect class="knock" x="0" y={2 + i * pitch} width="100%" height="17" />
+          <text class="t-name" x="0" y={14 + i * pitch}>{r.name}</text>
+          <text class="t-val" x="100%" y={14 + i * pitch} text-anchor="end">{money(r.v)}</text>
+          <rect class={`m-${r.cls}`} x={`${lo}%`} y={20 + i * pitch} width={`${w}%`} height="12" rx="4" />
+          {r.v < 0
+            ? <g transform="translate(-4,0)"><rect class={`m-${r.cls}`} x={`${z}%`} y={20 + i * pitch} width="4" height="12" /></g>
+            : <rect class={`m-${r.cls}`} x={`${z}%`} y={20 + i * pitch} width="4" height="12" />}
+        </g>
+      );
+    })}
+    <line class="grid" x1="0" x2="100%" y1="134.5" y2="134.5" />
+    <text class="t-ax" x="6.667%" y="150" text-anchor="middle">-$10</text>
+    <text class="t-ax" x={`${z}%`} y="150" text-anchor="middle">$0</text>
+    <text class="t-ax" x="73.333%" y="150" text-anchor="middle">+$10</text>
+    <text class="t-note" x="0" y="170">cost more</text>
+    <text class="t-note" x="100%" y="170" text-anchor="end">saved</text>
+  </svg>
+  <figcaption>
+    The gap between the first two bars is the <b>1.9x</b> overstatement. The third bar is what is left
+    after dropping the trials that crashed early and booked a saving for work they never did.
+  </figcaption>
+</figure>

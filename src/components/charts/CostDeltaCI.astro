@@ -1,0 +1,78 @@
+---
+// The load-bearing chart: two mean per-task cost deltas with bootstrap CIs, on
+// one axis, with the A/A control's interval drawn as a shaded band across the
+// whole plot so you can see the treatment's mean land inside the noise.
+// Delta is off minus on, so positive means the proxy was cheaper.
+const LO = -1, HI = 2;                      // dollars
+const x = (v) => ((v - LO) / (HI - LO)) * 100;
+const arms = [
+  { key: 'on-cache', label: 'on-cache', cls: 'grey', y: 50,
+    mean: 0.730, median: 0.833, ci: [-0.249, 1.675] },
+  { key: 'on-token', label: 'on-token', cls: 'blue', y: 118,
+    mean: 0.367, median: -0.270, ci: [-0.674, 1.595] },
+];
+const money = (v) => (v < 0 ? '-$' : '+$') + Math.abs(v).toFixed(3);
+const band = arms[0].ci;
+const ticks = [-1, 0, 1, 2];
+---
+<figure class="fig">
+  <p class="fig-head">mean per-task cost delta, off minus on</p>
+  <p class="fig-sub">dot is the mean, bar is the median, line is the 95% bootstrap CI</p>
+  <div class="fig-key">
+    <span>
+      <svg width="26" height="10" aria-hidden="true"><rect class="band" x="0" y="0" width="26" height="10"/><line class="grid" x1="0.5" x2="0.5" y1="0" y2="10"/><line class="grid" x1="25.5" x2="25.5" y1="0" y2="10"/></svg>
+      A/A control noise band
+    </span>
+    <span>
+      <svg width="26" height="10" aria-hidden="true"><line class="s-grey" x1="1" x2="25" y1="5" y2="5" stroke-width="2"/><circle class="m-grey ring" cx="13" cy="5" r="4"/></svg>
+      on-cache, control
+    </span>
+    <span>
+      <svg width="26" height="10" aria-hidden="true"><line class="s-blue" x1="1" x2="25" y1="5" y2="5" stroke-width="2"/><circle class="m-blue ring" cx="13" cy="5" r="4"/></svg>
+      on-token, treatment
+    </span>
+  </div>
+  <svg height="202" role="img" aria-labelledby="cd-t cd-d">
+    <title id="cd-t">The treatment's mean cost saving of $0.367 per task sits inside the A/A control's own 95% confidence interval, and both intervals straddle zero.</title>
+    <desc id="cd-d">On-cache, the control that compresses nothing, has a mean delta of plus $0.730 with a 95% CI from minus $0.249 to plus $1.675. On-token, the treatment, has a mean delta of plus $0.367 with a 95% CI from minus $0.674 to plus $1.595 and a median of minus $0.270. Neither interval clears zero.</desc>
+
+    <rect class="band" x={`${x(band[0])}%`} y="8" width={`${x(band[1]) - x(band[0])}%`} height="142" />
+    <line class="grid" x1={`${x(band[0])}%`} x2={`${x(band[0])}%`} y1="8" y2="150" />
+    <line class="grid" x1={`${x(band[1])}%`} x2={`${x(band[1])}%`} y1="8" y2="150" />
+    <line class="zero" x1={`${x(0)}%`} x2={`${x(0)}%`} y1="8" y2="162" />
+
+    {arms.map((a) => (
+      <g>
+        <text class="t-name" x="0" y={a.y - 16}>{a.label}</text>
+        <text class="t-emph" x={`${x(a.mean)}%`} y={a.y - 16} text-anchor="middle">{money(a.mean)}</text>
+        <line class={`s-${a.cls}`} x1={`${x(a.ci[0])}%`} x2={`${x(a.ci[1])}%`} y1={a.y} y2={a.y} stroke-width="2" />
+        <line class={`s-${a.cls}`} x1={`${x(a.ci[0])}%`} x2={`${x(a.ci[0])}%`} y1={a.y - 6} y2={a.y + 6} stroke-width="1.5" />
+        <line class={`s-${a.cls}`} x1={`${x(a.ci[1])}%`} x2={`${x(a.ci[1])}%`} y1={a.y - 6} y2={a.y + 6} stroke-width="1.5" />
+        <line class={`s-${a.cls}`} x1={`${x(a.median)}%`} x2={`${x(a.median)}%`} y1={a.y - 9} y2={a.y + 9} stroke-width="3" />
+        <circle class={`m-${a.cls} ring`} cx={`${x(a.mean)}%`} cy={a.y} r="5" />
+        <text class="t-note" x={`${x(a.median)}%`} y={a.y + 24} text-anchor="middle"
+          ><tspan class="c-wide">median&#160;</tspan>{money(a.median)}</text>
+      </g>
+    ))}
+
+    <line class="grid" x1="0" x2="100%" y1="162.5" y2="162.5" />
+    {ticks.map((t, i) => (
+      <text class="t-ax" x={`${x(t)}%`} y="178"
+        text-anchor={i === 0 ? 'start' : i === ticks.length - 1 ? 'end' : 'middle'}>
+        {t < 0 ? `-$${Math.abs(t)}` : t === 0 ? '$0' : `+$${t}`}
+      </text>
+    ))}
+    <text class="t-note" x="0" y="196"><tspan class="c-wide">pricier with the proxy</tspan><tspan class="c-narrow">pricier</tspan></text>
+    <text class="t-note" x="100%" y="196" text-anchor="end"><tspan class="c-wide">cheaper with the proxy</tspan><tspan class="c-narrow">cheaper</tspan></text>
+  </svg>
+  <div class="fig-stats">
+    <div><b>on-cache, A/A control</b> n <i>25</i> &middot; Wilcoxon p <i>0.156</i> &middot; Cohen's dz <i>0.291</i> &middot; <i>17</i> cheaper / <i>8</i> pricier</div>
+    <div><b>on-token, treatment</b> n <i>22</i> &middot; Wilcoxon p <i>0.656</i> &middot; Cohen's dz <i>0.130</i> &middot; <i>9</i> cheaper / <i>13</i> pricier</div>
+  </div>
+  <figcaption>
+    Running the identical configuration twice, which is what the control arm is, already produces an
+    apparent saving of <b>$0.730</b> per task. The treatment's <b>$0.367</b> lands inside that band, its
+    median is <b>negative</b>, and more of its tasks came out pricier than cheaper. There is no effect
+    here to measure.
+  </figcaption>
+</figure>

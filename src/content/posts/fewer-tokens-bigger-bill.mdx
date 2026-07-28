@@ -4,6 +4,12 @@ date: 2026-07-28
 description: a proxy cut 39% of input tokens off an agentic coding benchmark and the bill did not move. prompt caching is why, and most savings meters cannot see it.
 ---
 
+import TokenSplit from '../../components/charts/TokenSplit.astro';
+import CostDeltaCI from '../../components/charts/CostDeltaCI.astro';
+import CacheCancellation from '../../components/charts/CacheCancellation.astro';
+import ClaimedVsRealized from '../../components/charts/ClaimedVsRealized.astro';
+import MeterRatio from '../../components/charts/MeterRatio.astro';
+
 there is a category of tool that sits between your agent and the model and rewrites
 the conversation history to make it smaller. the pitch is simple: fewer tokens in,
 smaller bill. the meter on the side of the box even tells you how much you saved.
@@ -40,9 +46,13 @@ bigger than nothing."
 token mode cut total input tokens from 215M to 132M across the arm. that part works
 exactly as advertised.
 
+<TokenSplit />
+
 the cost delta did not clear the noise floor. the treatment's mean per-task delta
 landed *inside* the A/A band, with a Wilcoxon signed-rank p of 0.66 and a Cohen's dz
 of 0.13. more tasks came out pricier with compression on than came out cheaper.
+
+<CostDeltaCI />
 
 so: 39% fewer tokens, no detectable change in cost. that combination should feel
 wrong. tokens are what you pay for.
@@ -69,6 +79,8 @@ the arithmetic is brutal in its symmetry. the value of the lost cache discount c
 out within a dollar or two of the value of the compression savings. you are trading
 tokens at $0.30 for the privilege of sending fewer tokens at $3.00.
 
+<CacheCancellation />
+
 > on a workload that already reuses the cache, shrinking the prompt costs money.
 
 ## how the meter gets it wrong
@@ -76,6 +88,8 @@ tokens at $0.30 for the privilege of sending fewer tokens at $3.00.
 the tool reports its own savings, and it reported saving real money on this run. it
 overstated by roughly 1.9x. the mechanism is worth describing precisely, because it
 is a general failure mode and not one tool's bug.
+
+<ClaimedVsRealized />
 
 the savings metric credits every removed token at a flat rate, around $2.00 per
 million. but the tokens it removes on this workload were cache reads. the
@@ -100,6 +114,8 @@ the dashboard reported cost saved at roughly twice the tokens removed. the same 
 i recomputed from the benchmark's own captured emission. that ratio should be a
 smell: if you remove 10% of tokens and book a 19% cost cut, something is pricing the
 removed tokens above what they cost.
+
+<MeterRatio />
 
 but the structural issue is deeper than a bad constant. the dashboard has no off arm.
 there is no counterfactual anywhere in it, and no line item for a lost cache discount.
