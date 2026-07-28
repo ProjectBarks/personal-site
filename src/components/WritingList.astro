@@ -1,0 +1,56 @@
+---
+// src/components/WritingList.astro
+import { getCollection } from 'astro:content';
+import resume from '../data/resume.json';
+import { deEm, humanDate } from '../lib/text';
+
+interface Props {
+  id?: string;
+  showHeading?: boolean;
+}
+const { id, showHeading = false } = Astro.props;
+
+interface WritingItem {
+  date: string;
+  title: string;
+  blurb: string;
+  href: string;
+  external: boolean;
+}
+
+const localPosts: WritingItem[] = (await getCollection('posts', ({ data }) => !data.draft)).map(
+  (post) => ({
+    date: post.data.date.toISOString().slice(0, 10),
+    title: post.data.title,
+    blurb: post.data.description,
+    href: `/writing/${post.id}.html`,
+    external: false,
+  })
+);
+
+const outboundPosts: WritingItem[] = resume.articles.map((a) => ({
+  date: a.date,
+  title: a.title,
+  blurb: a.blurb,
+  href: a.link,
+  external: true,
+}));
+
+const items = [...localPosts, ...outboundPosts].sort((a, b) => b.date.localeCompare(a.date));
+---
+<section class="block articles posts" id={id} aria-label="writing">
+  {showHeading && <h2>writing</h2>}
+  {items.map((item) => (
+    <div class="row">
+      <div class="yr"><time datetime={item.date}>{humanDate(item.date)}</time></div>
+      <div class="what">
+        <b>
+          {item.external
+            ? <a href={item.href} target="_blank" rel="noopener noreferrer">{item.title}</a>
+            : <a href={item.href}>{item.title}</a>}
+        </b>
+        <span>{deEm(item.blurb)}</span>
+      </div>
+    </div>
+  ))}
+</section>
