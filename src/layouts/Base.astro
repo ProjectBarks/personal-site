@@ -3,6 +3,7 @@
 import '../styles/global.css';
 import resume from '../data/resume.json';
 import Topbar from '../components/Topbar.astro';
+import { deEm } from '../lib/text';
 
 interface Props {
   active: 'home' | 'cv' | 'none';
@@ -20,8 +21,8 @@ const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label))
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{title}</title>
-  <meta name="description" content={m.description} />
+  <title>{deEm(title)}</title>
+  <meta name="description" content={deEm(m.description)} />
   <meta name="theme-color" content={m.theme_color} />
   <link rel="icon" type="image/x-icon" href="/images/favicons/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png" />
@@ -29,8 +30,8 @@ const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label))
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png" />
   <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png" />
   <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png" />
-  <meta property="og:title" content={m.title} />
-  <meta property="og:description" content={m.og_description} />
+  <meta property="og:title" content={deEm(m.title)} />
+  <meta property="og:description" content={deEm(m.og_description)} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={ogUrl} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
