@@ -3,8 +3,8 @@
 // one axis, with the A/A control's interval drawn as a shaded band across the
 // whole plot so you can see the treatment's mean land inside the noise.
 // Delta is off minus on, so positive means headroom was cheaper.
-import { responsive } from './plot.js';
-import { costDelta as d, money3, dollarTick } from './data.js';
+import { responsive } from '../lib/plot.js';
+import { costDelta as d, money3, dollarTick } from '../data/charts.js';
 import * as Plot from '@observablehq/plot';
 
 const label =

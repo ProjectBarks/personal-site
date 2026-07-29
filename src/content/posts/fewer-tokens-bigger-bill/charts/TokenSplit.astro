@@ -3,8 +3,8 @@
 // and how much of that arrived uncached at full price. A single stacked bar
 // would hide the second measure entirely, since the full-price slice is 1.7%
 // to 7.4% of the bar and would render as a two-pixel sliver.
-import { responsive } from './plot.js';
-import { tokenSplit as d } from './data.js';
+import { responsive } from '../lib/plot.js';
+import { tokenSplit as d } from '../data/charts.js';
 import * as Plot from '@observablehq/plot';
 
 const arms = d.rows.map((r) => r.arm);
