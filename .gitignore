@@ -112,3 +112,7 @@ package-lock.json/build
 
 # Astro generated types/output
 .astro/
+
+# local design exploration and generated planning docs, not part of the site
+design-variations/
+docs/superpowers/
