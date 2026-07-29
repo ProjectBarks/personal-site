@@ -1,0 +1,67 @@
+---
+// The two halves of the trade, drawn from a shared zero so they oppose each
+// other: what the compression meter says it saved, and what the destroyed cache
+// discount cost. The third row is the residual, which is the point.
+import { responsive } from './plot.js';
+import { cacheCancellation as d, TONE, money2, dollarTick } from './data.js';
+import * as Plot from '@observablehq/plot';
+
+const label =
+  'The $15.41 of metered compression savings is cancelled by $16.37 of lost cache discount, leaving a net of minus $0.96.';
+
+const { wide, narrow } = responsive(
+  (width) => ({
+    width,
+    height: 174,
+    marginTop: 6,
+    marginBottom: 34,
+    marginLeft: 16,
+    marginRight: 16,
+    x: { domain: d.domain, ticks: d.ticks, tickFormat: dollarTick, label: null },
+    y: { domain: d.rows.map((r) => r.name), axis: null, label: null },
+    marks: [
+      Plot.ruleX([0], { stroke: 'var(--dim)', strokeWidth: 1 }),
+      Plot.barX(d.rows, {
+        y: 'name',
+        x: 'v',
+        fill: (r) => TONE[r.tone],
+        rx: 4,
+        insetTop: 13,
+        insetBottom: 13,
+      }),
+      Plot.text(d.rows, {
+        y: 'name',
+        text: 'name',
+        frameAnchor: 'left',
+        textAnchor: 'start',
+        dy: -16,
+        fill: 'var(--dim)',
+        fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'name',
+        text: (r) => money2(r.v),
+        frameAnchor: 'right',
+        textAnchor: 'end',
+        dy: -16,
+        fill: 'var(--ink)',
+        fontSize: 12,
+      }),
+    ],
+  }),
+  label
+);
+---
+
+<figure class="fig">
+  <p class="fig-head">what compression saved, against what it destroyed</p>
+  <p class="fig-sub">dollars across the 25-task on-token arm</p>
+  <div class="plot-wide" set:html={wide} />
+  <div class="plot-narrow" set:html={narrow} />
+  <figcaption>
+    Token mode busted the provider cache <b>123</b> times against the control's <b>14</b>, and cache-read
+    reuse per write token fell from <b>38:1</b> to <b>11:1</b>. That knocked <b>6,062,098</b> tokens out of
+    the cache and into full-price billing, worth $16.37 of forfeited discount, against $15.41 of savings
+    headroom credited itself.
+  </figcaption>
+</figure>

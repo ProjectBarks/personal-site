@@ -1,0 +1,83 @@
+---
+// Two panels over the same three arms: how many prompt tokens each arm sent,
+// and how much of that arrived uncached at full price. A single stacked bar
+// would hide the second measure entirely, since the full-price slice is 1.7%
+// to 7.4% of the bar and would render as a two-pixel sliver.
+import { responsive } from './plot.js';
+import { tokenSplit as d } from './data.js';
+import * as Plot from '@observablehq/plot';
+
+const arms = d.rows.map((r) => r.arm);
+
+function panel({ value, max, ticks, tickFormat, format, fill }) {
+  return (width) => ({
+    width,
+    height: 168,
+    marginTop: 6,
+    marginBottom: 34,
+    marginLeft: 16,
+    marginRight: 16,
+    x: { domain: [0, max], ticks, tickFormat, label: null },
+    y: { domain: arms, axis: null, label: null },
+    marks: [
+      Plot.barX(d.rows, { y: 'arm', x: value, fill, rx: 4, insetTop: 13, insetBottom: 13 }),
+      Plot.text(d.rows, {
+        y: 'arm', text: 'arm',
+        frameAnchor: 'left', textAnchor: 'start', dy: -16,
+        fill: 'var(--dim)', fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'arm', text: (r) => format(r[value]),
+        frameAnchor: 'right', textAnchor: 'end', dy: -16,
+        fill: 'var(--ink)', fontSize: 12,
+      }),
+      Plot.frame({ anchor: 'bottom', stroke: 'var(--rule)', strokeWidth: 1 }),
+    ],
+  });
+}
+
+// panels sit side by side on desktop and stack full width on a phone
+const WIDTHS = [337, 360];
+
+const totals = responsive(
+  panel({
+    value: 'total', max: d.totalMax,
+    ticks: [0, 100, 200], tickFormat: (t) => (t === 0 ? '0' : `${t}M`),
+    format: (v) => `${v}M`, fill: 'var(--accent)',
+  }),
+  'Total prompt tokens by arm: off 215M, on-cache 191M, on-token 132M.',
+  WIDTHS
+);
+
+const shares = responsive(
+  panel({
+    value: 'share', max: d.shareMax,
+    ticks: [0, 4, 8], tickFormat: (t) => (t === 0 ? '0' : `${t}%`),
+    format: (v) => `${v}%`, fill: 'var(--chart-warm)',
+  }),
+  'Share of prompt tokens billed at full price: off 1.7%, on-cache 2.1%, on-token 7.4%.',
+  WIDTHS
+);
+---
+
+<figure class="fig">
+  <div class="fig-pair">
+    <div>
+      <p class="fig-head">total prompt tokens</p>
+      <p class="fig-sub">cache reads plus fresh input</p>
+      <div class="plot-wide" set:html={totals.wide} />
+      <div class="plot-narrow" set:html={totals.narrow} />
+    </div>
+    <div>
+      <p class="fig-head">share billed at full price</p>
+      <p class="fig-sub">fresh input, never cached</p>
+      <div class="plot-wide" set:html={shares.wide} />
+      <div class="plot-narrow" set:html={shares.narrow} />
+    </div>
+  </div>
+  <figcaption>
+    Compression works on the left panel and backfires on the right. Token mode sends <b>39% fewer</b> prompt
+    tokens than baseline, and <b>4.4x</b> as large a share of them arrives uncached, where they bill at ten
+    times the cache-read rate.
+  </figcaption>
+</figure>

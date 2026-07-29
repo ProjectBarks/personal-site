@@ -4,11 +4,11 @@ date: 2026-07-28
 description: headroom cut 39% of input tokens off an agentic coding benchmark and the bill did not move. prompt caching is why, and most savings meters cannot see it.
 ---
 
-import TokenSplit from '../../components/charts/TokenSplit.astro';
-import CostDeltaCI from '../../components/charts/CostDeltaCI.astro';
-import CacheCancellation from '../../components/charts/CacheCancellation.astro';
-import ClaimedVsRealized from '../../components/charts/ClaimedVsRealized.astro';
-import MeterRatio from '../../components/charts/MeterRatio.astro';
+import TokenSplit from './TokenSplit.astro';
+import CostDeltaCI from './CostDeltaCI.astro';
+import CacheCancellation from './CacheCancellation.astro';
+import ClaimedVsRealized from './ClaimedVsRealized.astro';
+import MeterRatio from './MeterRatio.astro';
 
 there is a category of tool that sits between your agent and the model and rewrites
 the conversation history to make it smaller. the pitch is simple: fewer tokens in,

@@ -1,0 +1,76 @@
+---
+// Tokens removed against cost booked as saved, for two independent readings of
+// the same metric. The point is that the second dot is always about twice the
+// first, in production and in the benchmark alike.
+import { responsive } from './plot.js';
+import { meterRatio as d } from './data.js';
+import * as Plot from '@observablehq/plot';
+
+const label =
+  'Both readings book about twice as much cost saved as tokens removed: 10.1% of tokens for 19.4% of cost in production, 9.7% for 24.7% in the benchmark.';
+
+const names = d.rows.map((r) => r.name);
+
+const { wide, narrow } = responsive(
+  (width) => ({
+    width,
+    height: 184,
+    marginTop: 6,
+    marginBottom: 34,
+    marginLeft: 16,
+    marginRight: 16,
+    x: { domain: d.domain, ticks: d.ticks, tickFormat: (t) => (t === 0 ? '0' : `${t}%`), label: null },
+    y: { domain: names, axis: null, label: null },
+    marks: [
+      Plot.link(d.rows, {
+        y: 'name', x1: 'tokens', x2: 'cost',
+        stroke: 'var(--rule)', strokeWidth: 2,
+      }),
+      Plot.dot(d.rows, {
+        y: 'name', x: 'tokens', r: 5,
+        fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2,
+      }),
+      Plot.dot(d.rows, {
+        y: 'name', x: 'cost', r: 5,
+        fill: 'var(--chart-warm)', stroke: 'var(--bg)', strokeWidth: 2,
+      }),
+      Plot.text(d.rows, {
+        y: 'name', text: 'name',
+        frameAnchor: 'left', textAnchor: 'start', dy: -26,
+        fill: 'var(--dim)', fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'name', x: 'tokens', text: (r) => `${r.tokens}%`,
+        dy: 20, fill: 'var(--ink)', fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'name', x: 'cost', text: (r) => `${r.cost}%`,
+        dy: 20, fill: 'var(--ink)', fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'name', x: 'cost', text: 'ratio',
+        textAnchor: 'start', dx: 14, dy: -2,
+        fill: 'var(--muted)', fontSize: 11,
+      }),
+    ],
+  }),
+  label
+);
+---
+
+<figure class="fig">
+  <p class="fig-head">tokens removed against cost booked as saved</p>
+  <p class="fig-sub">percent, two independent readings of the same metric</p>
+  <div class="fig-key">
+    <span><i class="sw sw-dot sw-accent"></i> tokens removed</span>
+    <span><i class="sw sw-dot sw-warm"></i> cost booked as saved</span>
+  </div>
+  <div class="plot-wide" set:html={wide} />
+  <div class="plot-narrow" set:html={narrow} />
+  <figcaption>
+    Both readings book roughly twice as much cost saved as tokens removed. The metric credits every
+    removed token at a flat <b>$2.00</b> per million, and on this workload the cache-weighted price
+    actually paid was <b>$0.79</b> per million, so the saving arrives already inflated, before anything
+    is subtracted for the cache reuse the removal destroyed.
+  </figcaption>
+</figure>

@@ -208,9 +208,15 @@ html{scroll-behavior:smooth}
 .back a{color:var(--muted);border-bottom:none}
 .back a:hover{color:var(--accent-text)}
 .post .role{margin-bottom:24px}
+/* One measure for the whole post, centred in the wrap, so the title, the meta
+   line, the body and the captions all share a left edge. Figures break out of
+   it symmetrically. Before this the prose was 66ch left-aligned inside a 780px
+   wrap while the figures ran the full width, so every chart overhung to the
+   right only and nothing lined up. */
+.post{max-width:66ch;margin-inline:auto}
 .prose{
   font-family:'IBM Plex Sans',system-ui,sans-serif;
-  color:var(--ink);max-width:66ch;font-size:17px;line-height:1.7;
+  color:var(--ink);max-width:none;font-size:17px;line-height:1.7;
 }
 .prose p{margin:0 0 18px}
 .prose h2{
@@ -233,36 +239,33 @@ html{scroll-behavior:smooth}
   border-radius:4px;color:var(--dim)}
 
 /* ---- charts ------------------------------------------------------------
-   Every chart is inline SVG with NO viewBox: width is 100% and every x sits
-   at a percentage, so the plot stretches while font-size stays in real px.
-   A viewBox would scale an 11px tick down to 6px on a 375px screen. */
+   Charts are Observable Plot output, serialised to SVG at build time. Plot
+   emits a viewBox, which scales label text down with the box, so each chart is
+   rendered twice and swapped below. Colours are authored as var() in the mark
+   specs and survive into the SVG, so the print inversion reaches them. */
 .fig{margin:30px 0 34px;padding:0}
-/* the prose measure is 66ch; the figures take the full wrap so the plots get
-   ~170px more run without the text column getting harder to read */
-@supports (container-type:inline-size){.fig{width:100cqi}}
-.fig svg{display:block;width:100%}
-.fig text{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+/* the text column is 66ch and centred; a figure takes the full wrap and stays
+   centred on the same axis, so it overhangs evenly on both sides */
+@supports (container-type:inline-size){
+  .fig{width:100cqi;margin-inline:calc((100% - 100cqi) / 2)}
+}
+.fig .plot-narrow{display:none}
+.fig .plot-wide svg,.fig .plot-narrow svg{display:block;width:100%;height:auto}
+/* Plot sets fill="currentColor" on axis text, so this is the axis colour */
+.fig .plot-wide,.fig .plot-narrow{color:var(--muted)}
+.fig svg text{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-variant-numeric:tabular-nums;
   /* a surface-coloured halo behind every glyph: labels sit over the zero rule and
      the noise band, and a knockout is cleaner than nudging them off their mark */
   paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
-.fig .t-name{font-size:12px;fill:var(--dim)}
-.fig .t-val{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}
-.fig .t-ax{font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
-.fig .t-note{font-size:11px;fill:var(--muted)}
-.fig .t-emph{font-size:12px;fill:var(--ink);font-variant-numeric:tabular-nums}
-/* marks: cobalt is the subject, warm ochre is always "money at full price" */
-.fig .m-blue{fill:var(--accent)}
-.fig .m-warm{fill:var(--chart-warm)}
-.fig .m-grey{fill:var(--chart-grey)}
-.fig .s-blue{stroke:var(--accent)}
-.fig .s-grey{stroke:var(--chart-grey)}
-.fig .ring{stroke:var(--bg);stroke-width:2}
-.fig .grid{stroke:var(--rule);stroke-width:1}
-.fig .zero{stroke:var(--dim);stroke-width:1}
-.fig .band{fill:rgba(164,166,176,.09)}
-/* knocks the zero rule out of the label lines, so the rule reads only where it
-   is doing work, against the bars */
-.fig .knock{fill:var(--bg)}
+/* legend swatches. CSS shapes rather than inline SVG, so the figure's
+   width:100% rule cannot stretch a 12px key mark to the full column. */
+.fig-key .sw{display:inline-block;width:14px;height:9px;flex:none}
+.fig-key .sw-dot{width:10px;height:10px;border-radius:50%}
+.fig-key .sw-accent{background:var(--accent)}
+.fig-key .sw-warm{background:var(--chart-warm)}
+.fig-key .sw-grey{background:var(--chart-grey)}
+.fig-key .sw-band{background:var(--chart-band);box-shadow:inset 1px 0 var(--rule),inset -1px 0 var(--rule)}
 /* a heading strip over each plot, and the sentence-length caption under it */
 .fig-head{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;
   color:var(--ink);margin:0 0 2px;font-weight:500}
@@ -275,7 +278,6 @@ html{scroll-behavior:smooth}
 .fig-key{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 10px;
   font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--muted)}
 .fig-key span{display:inline-flex;align-items:center;gap:7px}
-.fig-key svg{width:auto;flex:none}
 /* the stat strip doubles as the table view: every plotted number is also here */
 .fig-stats{margin-top:14px;display:grid;gap:9px;
   font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:var(--muted)}
@@ -284,9 +286,10 @@ html{scroll-behavior:smooth}
 .fig-stats i{font-style:normal;color:var(--ink);font-variant-numeric:tabular-nums}
 .c-narrow{display:none}
 @media (max-width:640px){
-  /* the labels are real text, not scaled geometry, so they only need a step down */
-  .fig .t-name,.fig .t-val,.fig .t-emph{font-size:11px}
-  .fig .t-ax,.fig .t-note{font-size:10px}
+  /* swap in the phone render: same chart, laid out for a narrower box, so its
+     label text lands at its true size instead of being scaled down by a viewBox */
+  .fig .plot-wide{display:none}
+  .fig .plot-narrow{display:block}
   .fig-pair{grid-template-columns:1fr;gap:22px}
   .fig figcaption{font-size:13px}
   .fig-stats{font-size:11px}

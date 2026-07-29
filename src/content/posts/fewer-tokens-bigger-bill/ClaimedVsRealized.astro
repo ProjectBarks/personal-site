@@ -1,0 +1,69 @@
+---
+// What the meter claimed against what the run actually cost. Diverging from
+// zero, because the honest answer on the clean set is on the other side of it.
+import { responsive } from './plot.js';
+import { claimedVsRealized as d, TONE, money2, dollarTick } from './data.js';
+import * as Plot from '@observablehq/plot';
+
+const label =
+  'The meter claimed $15.41 saved; the matched tasks realised $8.13, and the clean set came out $8.98 more expensive than baseline.';
+
+const { wide, narrow } = responsive(
+  (width) => ({
+    width,
+    height: 174,
+    marginTop: 6,
+    marginBottom: 34,
+    marginLeft: 16,
+    marginRight: 16,
+    x: { domain: d.domain, ticks: d.ticks, tickFormat: dollarTick, label: null },
+    y: { domain: d.rows.map((r) => r.name), axis: null, label: null },
+    marks: [
+      Plot.ruleX([0], { stroke: 'var(--dim)', strokeWidth: 1 }),
+      Plot.barX(d.rows, {
+        y: 'name',
+        x: 'v',
+        fill: (r) => TONE[r.tone],
+        rx: 4,
+        insetTop: 13,
+        insetBottom: 13,
+      }),
+      Plot.text(d.rows, {
+        y: 'name',
+        text: 'name',
+        frameAnchor: 'left',
+        textAnchor: 'start',
+        dy: -16,
+        fill: 'var(--dim)',
+        fontSize: 12,
+      }),
+      Plot.text(d.rows, {
+        y: 'name',
+        text: (r) => money2(r.v),
+        frameAnchor: 'right',
+        textAnchor: 'end',
+        dy: -16,
+        fill: 'var(--ink)',
+        fontSize: 12,
+      }),
+    ],
+  }),
+  label
+);
+---
+
+<figure class="fig">
+  <p class="fig-head">savings on the run, as claimed and as measured</p>
+  <p class="fig-sub">dollars over the whole on-token arm</p>
+  <div class="fig-key">
+    <span><i class="sw sw-grey"></i> claimed by the meter</span>
+    <span><i class="sw sw-accent"></i> measured saving</span>
+    <span><i class="sw sw-warm"></i> measured extra cost</span>
+  </div>
+  <div class="plot-wide" set:html={wide} />
+  <div class="plot-narrow" set:html={narrow} />
+  <figcaption>
+    The gap between the first two bars is the <b>1.9x</b> overstatement. The third bar is what is left
+    after dropping the trials that crashed early and booked a saving for work they never did.
+  </figcaption>
+</figure>
