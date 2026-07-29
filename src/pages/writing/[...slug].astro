@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const isoDate = post.data.date.toISOString().slice(0, 10);
-const ogUrl = `${resume.meta.url.replace(/\/?$/, '/')}writing/${post.id}.html`;
+const ogUrl = `${resume.meta.url.replace(/\/?$/, '/')}writing/${post.id}`;
 ---
 <Base active="none" title={`${post.data.title} · ${resume.name}`} ogUrl={ogUrl} cmd={`cat ${post.id}.mdx`}>
   <article class="post">

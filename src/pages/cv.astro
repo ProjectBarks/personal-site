@@ -11,7 +11,7 @@ const byYearDesc = (a: { year: string }, b: { year: string }) =>
   (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0);
 const projectsSorted = [...resume.projects].sort(byYearDesc);
 
-const ogUrl = resume.meta.url.replace(/\/?$/, '/') + 'cv.html';
+const ogUrl = resume.meta.url.replace(/\/?$/, '/') + 'cv';
 const jumpIds = ['projects', 'writing', 'work', 'activities', 'awards', 'education'];
 ---
 <Base active="cv" title={`cv · ${resume.name}`} ogUrl={ogUrl} cmd="cat cv.txt" backToTop>

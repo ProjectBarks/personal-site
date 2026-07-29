@@ -23,7 +23,7 @@ const localPosts: WritingItem[] = (await getCollection('posts', ({ data }) => !d
     date: post.data.date.toISOString().slice(0, 10),
     title: post.data.title,
     blurb: post.data.description,
-    href: `/writing/${post.id}.html`,
+    href: `/writing/${post.id}`,
     external: false,
   })
 );

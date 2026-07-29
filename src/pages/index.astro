@@ -8,7 +8,7 @@ import { deEm, hardenLinks } from '../lib/text';
 const lede = hardenLinks(
   deEm(resume.lede_html.replace(/\s*innovating for the future[^.]*\.\s*$/i, '').trim()).replace(
     /href="#/g,
-    'href="/cv.html#'
+    'href="/cv#'
   )
 );
 ---
