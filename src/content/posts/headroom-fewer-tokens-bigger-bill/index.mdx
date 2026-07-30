@@ -1,0 +1,74 @@
+---
+title: "headroom cut 39% of my tokens and raised my claude bill"
+date: 2026-07-28
+description: headroom cut 39% of input tokens off an agentic coding benchmark and the bill, if anything, went up. prompt caching is why, and most savings meters cannot see it.
+---
+
+import TokenSplit from './charts/TokenSplit.astro';
+import CostDeltaCI from './charts/CostDeltaCI.astro';
+import CacheCancellation from './charts/CacheCancellation.astro';
+import ClaimedVsRealized from './charts/ClaimedVsRealized.astro';
+
+there has been a lot of hype around token saving tools for llms like [rtk](https://github.com/rtk-ai/rtk), [headroom](https://headroom-docs.vercel.app/docs), and [ponytail](https://github.com/DietrichGebert/ponytail). every time i read about one i wonder the same thing: do these actually work?
+
+i haven't seen much a/b testing out of any of them, and the optimizations don't make much sense to me in an efficient market. i don't have a good name for this, so i'll call it the platform envelopment paradox: why wouldn't anthropic or openai adopt these tricks internally and forward a chunk of the savings to you? headroom, rtk and ponytail all save tokens, and i'd imagine most engineers at those labs spend their days looking for simple ways to save compute. any major token optimization that can be lifted onto the platform probably will be. so i wanted to actually evaluate one in a controlled way. funny enough, jetbrains had already [tested](https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/) rtk and found it increased costs, so i ran the same kind of test on headroom.
+
+## the plan
+
+most of headroom's [benchmarks](https://headroom-docs.vercel.app/docs/benchmarks) compare headroom to itself. run it locally and you get numbers telling you how much money you're saving, with no way to say how the same non-deterministic entropy hole would have behaved without it.
+
+so i used [harbor](https://www.harborframework.com/) with the [sr swe bench](https://hub.harborframework.com/datasets/snorkel-ai/senior-swe-bench-v2026.06), three arms over the same tasks: plain claude as the baseline, headroom in token mode, and headroom in cache mode[^1]. cache mode changes so little that it mostly measures how far two runs of the same setup drift apart on their own, and that number ends up doing a lot of work later. running all of it meant spinning up a pile of vms on an anthropic api key (no subscription pricing), so i sampled 25 test cases picked to favor headroom.
+
+## what i found
+
+token mode[^1] cut total input tokens from 215m to 132m across the arm. that part works exactly as advertised. *yay*
+
+<TokenSplit />
+
+great, right? not exactly. token mode came out about $0.37 per task cheaper on average, and more tasks came out pricier with compression on than came out cheaper.
+
+<CostDeltaCI />
+
+$0.37 sounds like a win until you look at cache mode, which "saved" $0.73 per task while changing almost nothing. the apparent saving is half the size of the noise.
+
+so: 39% fewer tokens, no detectable change in cost. that combination should feel wrong. tokens are what you pay for.
+
+## a cache read costs a tenth of a fresh token
+
+all tokens are not billed the same. with provider prompt caching they aren't even fungible. at [published sonnet rates](https://www.anthropic.com/pricing), fresh input runs $3.00 per million and a cache read runs $0.30, a tenth of the price. an agent loop that keeps appending to a stable prefix is close to the ideal case for this: on the baseline arm, roughly 98% of prompt tokens were cache reads.
+
+that 98% puts a ceiling on the whole exercise. the 83m tokens headroom removed were almost all cache reads, and cache reads run $0.30 per million, so a perfect compressor that never busts a single cache entry saves about $25 here.
+
+compression works by rewriting history, and rewriting history changes the prefix the cache is keyed on. cache mode[^1] busted the provider cache 14 times across 25 tasks. token mode busted it 123 times, and cache-read reuse per write token fell from **38:1** to **11:1**. compression removed tokens and, in the process, pushed six million other tokens out of the cache and into full-price billing.
+
+the discount it gave up came out within a dollar or two of the savings it produced. you end up trading tokens at $0.30 for the privilege of sending fewer tokens at $3.00.
+
+<CacheCancellation />
+
+> on a workload that already reuses the cache, shrinking the prompt costs money.
+
+## so what savings is headroom claiming
+
+headroom reports its own savings, and it reported real money saved on this run. it overstated by roughly 1.9x, and the mechanism isn't specific to headroom: any meter that prices removed tokens at the list rate and never subtracts the cache reuse it broke will overstate on a cached workload.
+
+the meter prices every removed token at the model's [list input rate](https://github.com/headroomlabs-ai/headroom/blob/1588f5e04144af5de8398810ea3893c6e623309c/headroom/savings_ledger.py#L90), and nothing in it knows what a cache read is. on this run that worked out to crediting about $2.00 per million tokens removed, while the cache-weighted price actually paid was about $0.79 per million. crediting $2.00 for a token that cost $0.79 accounts for most of the gap.
+
+the rest of the gap is what the metric never does at all: it doesn't subtract the cache reuse the compression invalidated. it counts the tokens it removed, not the tokens it knocked out of the cache somewhere else in the loop.
+
+<ClaimedVsRealized />
+
+per task, the meter happily reported a saving on trials that came out more expensive than baseline. drop the trials that crashed early and booked a saving for work they never did, and the remaining tasks came out $8.98 more expensive than baseline while the meter still showed $15.41 saved. a savings number that can't come out negative isn't measuring savings.
+
+## it did not make the agent worse
+
+solve rates were flat: 5 of 25 for token mode, 4 for baseline, 4 for cache mode. for every task where the arms disagreed i had subagents read the full session transcripts side by side, rather than trusting the aggregate.
+
+## the bottom line
+
+realistically it's probably not saving money at all. the $0.37 saving i measured is inside the noise, and these tasks were picked to favor headroom. if i've learned anything: before you trust one of these tools, run some benchmarks yourself and see if they align with what it's reporting.
+
+where compression still earns its place is when you're up against a context window rather than a budget. matching baseline reasoning on 39% fewer tokens is real, it's just a memory result and not a cost one. so if you're working on problems that lean less on caching i can see this working, but ultimately for multi-turn agents i'd skip it.
+
+*everything here is my personal opinion, based on my own testing, and that testing is small: 25 tasks on one benchmark. treat it as a data point, not a verdict.*
+
+[^1]: the arms, same 25 tasks each: **baseline** is plain claude with no compression. **token mode** is headroom rewriting history and caching tokens mid transcript. **cache mode** is headroom rewriting only the newest part of the transcript, the closest thing to running baseline twice.

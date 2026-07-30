@@ -24,14 +24,14 @@ function panel({ value, max, ticks, tickFormat, format, fill }) {
       Plot.text(d.rows, {
         y: 'arm', text: 'arm',
         frameAnchor: 'left', textAnchor: 'start', dy: -16,
-        fill: 'var(--dim)', fontSize: 12,
+        fill: 'var(--dim, #3f434e)', fontSize: 12,
       }),
       Plot.text(d.rows, {
         y: 'arm', text: (r) => format(r[value]),
         frameAnchor: 'right', textAnchor: 'end', dy: -16,
-        fill: 'var(--ink)', fontSize: 12,
+        fill: 'var(--ink, #14161b)', fontSize: 12,
       }),
-      Plot.frame({ anchor: 'bottom', stroke: 'var(--rule)', strokeWidth: 1 }),
+      Plot.frame({ anchor: 'bottom', stroke: 'var(--rule, #c8cbd3)', strokeWidth: 1 }),
     ],
   });
 }
@@ -43,9 +43,9 @@ const totals = responsive(
   panel({
     value: 'total', max: d.totalMax,
     ticks: [0, 100, 200], tickFormat: (t) => (t === 0 ? '0' : `${t}M`),
-    format: (v) => `${v}M`, fill: 'var(--accent)',
+    format: (v) => `${v}M`, fill: 'var(--accent, #2e5bff)',
   }),
-  'Total prompt tokens by arm: off 215M, on-cache 191M, on-token 132M.',
+  'total prompt tokens: baseline 215M, cache mode 191M, token mode 132M.',
   WIDTHS
 );
 
@@ -53,9 +53,9 @@ const shares = responsive(
   panel({
     value: 'share', max: d.shareMax,
     ticks: [0, 4, 8], tickFormat: (t) => (t === 0 ? '0' : `${t}%`),
-    format: (v) => `${v}%`, fill: 'var(--chart-warm)',
+    format: (v) => `${v}%`, fill: 'var(--chart-warm, #b35f14)',
   }),
-  'Share of prompt tokens billed at full price: off 1.7%, on-cache 2.1%, on-token 7.4%.',
+  'share of prompt tokens billed at full price: baseline 1.7%, cache mode 2.1%, token mode 7.4%.',
   WIDTHS
 );
 ---
@@ -69,14 +69,14 @@ const shares = responsive(
       <div class="plot-narrow" set:html={totals.narrow} />
     </div>
     <div>
-      <p class="fig-head">share billed at full price</p>
-      <p class="fig-sub">fresh input, never cached</p>
+      <p class="fig-head">share that missed the cache</p>
+      <p class="fig-sub">fresh input, billed at full price</p>
       <div class="plot-wide" set:html={shares.wide} />
       <div class="plot-narrow" set:html={shares.narrow} />
     </div>
   </div>
   <figcaption>
-    Compression works on the left panel and backfires on the right. Token mode sends <b>39% fewer</b> prompt
+    compression works on the left panel and backfires on the right. token mode sends <b>39% fewer</b> prompt
     tokens than baseline, and <b>4.4x</b> as large a share of them arrives uncached, where they bill at ten
     times the cache-read rate.
   </figcaption>

@@ -1,27 +1,69 @@
 ---
 // src/pages/writing/[...slug].astro
 import { getCollection, render } from 'astro:content';
+import { existsSync } from 'node:fs';
 import Base from '../../layouts/Base.astro';
+import RedirectStub from '../../components/RedirectStub.astro';
 import resume from '../../data/resume.json';
 import { humanDate } from '../../lib/text';
 
 export async function getStaticPaths() {
+  // Old slugs a post shipped under → its current id. These render RedirectStub
+  // pages instead of config-level redirects because previewers read og tags
+  // off the old url directly and never follow a meta refresh.
+  const RENAMED: Record<string, string> = {
+    'fewer-tokens-bigger-bill': 'headroom-fewer-tokens-bigger-bill',
+    'headroom-cut-39-of-my-tokens-and-my-claude-bill-did-not-move':
+      'headroom-fewer-tokens-bigger-bill',
+    'headroom-fewer-tokens-same-bill': 'headroom-fewer-tokens-bigger-bill',
+  };
   const posts = await getCollection('posts', ({ data }) => !data.draft);
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  const byId = new Map(posts.map((p) => [p.id, p]));
+  return [
+    ...posts.map((post) => ({ params: { slug: post.id }, props: { post, redirect: false } })),
+    // a rename target can be momentarily absent (mid-rename in dev, or the
+    // post drafted); dropping the stub then beats crashing the whole route
+    ...Object.entries(RENAMED)
+      .filter(([, target]) => byId.has(target))
+      .map(([oldSlug, target]) => ({
+        params: { slug: oldSlug },
+        props: { post: byId.get(target)!, redirect: true },
+      })),
+  ];
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { post, redirect } = Astro.props;
 const isoDate = post.data.date.toISOString().slice(0, 10);
 const ogUrl = `${resume.meta.url.replace(/\/?$/, '/')}writing/${post.id}`;
+// unfurl card convention: a post has an image iff scripts/og-image.mjs wrote one
+const ogImagePath = `/images/og/${post.id}.png`;
+const ogImage = existsSync(`public${ogImagePath}`) ? ogImagePath : undefined;
+const Content = redirect ? null : (await render(post)).Content;
 ---
-<Base active="none" title={`${post.data.title} · ${resume.name}`} ogUrl={ogUrl} cmd={`cat ${post.id}.mdx`}>
-  <article class="post">
-    <p class="back"><a href="/">&larr; ~/root</a></p>
-    <h1>{post.data.title}</h1>
-    <p class="role"><time datetime={isoDate}>{humanDate(isoDate)}</time></p>
-    <div class="prose">
-      <Content />
-    </div>
-  </article>
-</Base>
+{redirect ? (
+  <RedirectStub
+    title={post.data.title}
+    description={post.data.description}
+    toPath={`/writing/${post.id}`}
+    ogImage={ogImage}
+  />
+) : (
+  <Base
+    active="none"
+    title={`${post.data.title} · ${resume.name}`}
+    ogUrl={ogUrl}
+    ogTitle={post.data.title}
+    ogDescription={post.data.description}
+    ogImage={ogImage}
+    cmd={`cat ${post.id}.mdx`}
+  >
+    <article class="post">
+      <p class="back"><a href="/">&larr; ~/root</a></p>
+      <h1>{post.data.title}</h1>
+      <p class="role"><time datetime={isoDate}>{humanDate(isoDate)}</time></p>
+      <div class="prose">
+        {Content && <Content />}
+      </div>
+    </article>
+  </Base>
+)}

@@ -1,13 +1,13 @@
 ---
-// Tokens removed against cost booked as saved, for two independent readings of
+// Tokens removed against cost claimed as saved, for two independent readings of
 // the same metric. The point is that the second dot is always about twice the
-// first, in production and in the benchmark alike.
+// first, on the dashboard and in the benchmark alike.
 import { responsive } from '../lib/plot.js';
 import { meterRatio as d } from '../data/charts.js';
 import * as Plot from '@observablehq/plot';
 
 const label =
-  'Both readings book about twice as much cost saved as tokens removed: 10.1% of tokens for 19.4% of cost in production, 9.7% for 24.7% in the benchmark.';
+  "headroom's meter claims about twice as much cost saved as it removed tokens: 10.1% of tokens for 19.4% of cost on its dashboard, 9.7% for 24.7% in this benchmark.";
 
 const names = d.rows.map((r) => r.name);
 
@@ -24,33 +24,33 @@ const { wide, narrow } = responsive(
     marks: [
       Plot.link(d.rows, {
         y: 'name', x1: 'tokens', x2: 'cost',
-        stroke: 'var(--rule)', strokeWidth: 2,
+        stroke: 'var(--rule, #c8cbd3)', strokeWidth: 2,
       }),
       Plot.dot(d.rows, {
         y: 'name', x: 'tokens', r: 5,
-        fill: 'var(--accent)', stroke: 'var(--bg)', strokeWidth: 2,
+        fill: 'var(--accent, #2e5bff)', stroke: 'var(--bg, #ffffff)', strokeWidth: 2,
       }),
       Plot.dot(d.rows, {
         y: 'name', x: 'cost', r: 5,
-        fill: 'var(--chart-warm)', stroke: 'var(--bg)', strokeWidth: 2,
+        fill: 'var(--chart-warm, #b35f14)', stroke: 'var(--bg, #ffffff)', strokeWidth: 2,
       }),
       Plot.text(d.rows, {
         y: 'name', text: 'name',
         frameAnchor: 'left', textAnchor: 'start', dy: -26,
-        fill: 'var(--dim)', fontSize: 12,
+        fill: 'var(--dim, #3f434e)', fontSize: 12,
       }),
       Plot.text(d.rows, {
         y: 'name', x: 'tokens', text: (r) => `${r.tokens}%`,
-        dy: 20, fill: 'var(--ink)', fontSize: 12,
+        dy: 20, fill: 'var(--ink, #14161b)', fontSize: 12,
       }),
       Plot.text(d.rows, {
         y: 'name', x: 'cost', text: (r) => `${r.cost}%`,
-        dy: 20, fill: 'var(--ink)', fontSize: 12,
+        dy: 20, fill: 'var(--ink, #14161b)', fontSize: 12,
       }),
       Plot.text(d.rows, {
         y: 'name', x: 'cost', text: 'ratio',
         textAnchor: 'start', dx: 14, dy: -2,
-        fill: 'var(--muted)', fontSize: 11,
+        fill: 'var(--muted, #5f6370)', fontSize: 11,
       }),
     ],
   }),
@@ -59,18 +59,19 @@ const { wide, narrow } = responsive(
 ---
 
 <figure class="fig">
-  <p class="fig-head">tokens removed against cost booked as saved</p>
-  <p class="fig-sub">percent, two independent readings of the same metric</p>
+  <p class="fig-head">how much headroom removed, against how much it claimed to save</p>
+  <p class="fig-sub">each as a percent of the run's total, on headroom's own dashboard and in this benchmark</p>
   <div class="fig-key">
-    <span><i class="sw sw-dot sw-accent"></i> tokens removed</span>
-    <span><i class="sw sw-dot sw-warm"></i> cost booked as saved</span>
+    <span><i class="sw sw-dot sw-accent"></i> tokens actually removed</span>
+    <span><i class="sw sw-dot sw-warm"></i> cost the meter claimed to save</span>
   </div>
   <div class="plot-wide" set:html={wide} />
   <div class="plot-narrow" set:html={narrow} />
   <figcaption>
-    Both readings book roughly twice as much cost saved as tokens removed. The metric credits every
+    the gap between the two dots is the overstatement, and it is the same on both rows: the meter claims
+    roughly twice as much cost saved as it removed tokens. the metric credits every
     removed token at a flat <b>$2.00</b> per million, and on this workload the cache-weighted price
     actually paid was <b>$0.79</b> per million, so the saving arrives already inflated, before anything
-    is subtracted for the cache reuse the removal destroyed.
+    is subtracted for the cache reuse the removal invalidated.
   </figcaption>
 </figure>

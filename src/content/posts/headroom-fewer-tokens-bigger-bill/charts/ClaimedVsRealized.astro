@@ -1,13 +1,12 @@
 ---
-// The two halves of the trade, drawn from a shared zero so they oppose each
-// other: what the compression meter says it saved, and what the destroyed cache
-// discount cost. The third row is the residual, which is the point.
+// What the meter claimed against what the run actually cost. Diverging from
+// zero, because the honest answer on the clean set is on the other side of it.
 import { responsive } from '../lib/plot.js';
-import { cacheCancellation as d, TONE, money2, dollarTick } from '../data/charts.js';
+import { claimedVsRealized as d, TONE, money2, dollarTick } from '../data/charts.js';
 import * as Plot from '@observablehq/plot';
 
 const label =
-  'The $15.41 of metered compression savings is cancelled by $16.37 of lost cache discount, leaving a net of minus $0.96.';
+  'the meter claimed $15.41 saved; the run realized $8.13, and the clean set came out $8.98 more expensive than baseline.';
 
 const { wide, narrow } = responsive(
   (width) => ({
@@ -20,7 +19,7 @@ const { wide, narrow } = responsive(
     x: { domain: d.domain, ticks: d.ticks, tickFormat: dollarTick, label: null },
     y: { domain: d.rows.map((r) => r.name), axis: null, label: null },
     marks: [
-      Plot.ruleX([0], { stroke: 'var(--dim)', strokeWidth: 1 }),
+      Plot.ruleX([0], { stroke: 'var(--dim, #3f434e)', strokeWidth: 1 }),
       Plot.barX(d.rows, {
         y: 'name',
         x: 'v',
@@ -35,7 +34,7 @@ const { wide, narrow } = responsive(
         frameAnchor: 'left',
         textAnchor: 'start',
         dy: -16,
-        fill: 'var(--dim)',
+        fill: 'var(--dim, #3f434e)',
         fontSize: 12,
       }),
       Plot.text(d.rows, {
@@ -44,7 +43,7 @@ const { wide, narrow } = responsive(
         frameAnchor: 'right',
         textAnchor: 'end',
         dy: -16,
-        fill: 'var(--ink)',
+        fill: 'var(--ink, #14161b)',
         fontSize: 12,
       }),
     ],
@@ -54,14 +53,17 @@ const { wide, narrow } = responsive(
 ---
 
 <figure class="fig">
-  <p class="fig-head">what compression saved, against what it destroyed</p>
-  <p class="fig-sub">dollars across the 25-task on-token arm</p>
+  <p class="fig-head">savings on the run, as claimed and as measured</p>
+  <p class="fig-sub">dollars over the whole token mode run</p>
+  <div class="fig-key">
+    <span><i class="sw sw-grey"></i> claimed by the meter</span>
+    <span><i class="sw sw-accent"></i> measured saving</span>
+    <span><i class="sw sw-warm"></i> measured extra cost</span>
+  </div>
   <div class="plot-wide" set:html={wide} />
   <div class="plot-narrow" set:html={narrow} />
   <figcaption>
-    Token mode busted the provider cache <b>123</b> times against the control's <b>14</b>, and cache-read
-    reuse per write token fell from <b>38:1</b> to <b>11:1</b>. That knocked <b>6,062,098</b> tokens out of
-    the cache and into full-price billing, worth $16.37 of forfeited discount, against $15.41 of savings
-    headroom credited itself.
+    the gap between the first two bars is the <b>1.9x</b> overstatement. the third bar is what is left
+    after dropping the trials that crashed early and booked a saving for work they never did.
   </figcaption>
 </figure>

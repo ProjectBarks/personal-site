@@ -1,16 +1,16 @@
 ---
 // The load-bearing chart: two mean per-task cost deltas with bootstrap CIs, on
-// one axis, with the A/A control's interval drawn as a shaded band across the
-// whole plot so you can see the treatment's mean land inside the noise.
-// Delta is off minus on, so positive means headroom was cheaper.
+// one axis, with cache mode's interval drawn as a shaded band across the whole
+// plot so you can see token mode's mean land inside the noise.
+// Delta is baseline minus arm, so positive means the arm came out cheaper.
 import { responsive } from '../lib/plot.js';
 import { costDelta as d, money3, dollarTick } from '../data/charts.js';
 import * as Plot from '@observablehq/plot';
 
 const label =
-  "The treatment's mean cost saving of $0.367 per task sits inside the A/A control's own 95% confidence interval, and both intervals straddle zero.";
+  "token mode's mean cost saving of $0.367 per task sits inside cache mode's own 95% confidence interval, and both intervals straddle zero.";
 
-const hue = (a) => (a.role === 'control' ? 'var(--chart-grey)' : 'var(--accent)');
+const hue = (a) => (a.role === 'control' ? 'var(--chart-grey, #6f7482)' : 'var(--accent, #2e5bff)');
 
 const { wide, narrow } = responsive(
   (width) => ({
@@ -25,10 +25,10 @@ const { wide, narrow } = responsive(
     marks: [
       // the A/A control's own interval, drawn as context rather than a series
       Plot.rectX([{ x1: d.band[0], x2: d.band[1] }], {
-        x1: 'x1', x2: 'x2', fill: 'var(--chart-band)',
+        x1: 'x1', x2: 'x2', fill: 'var(--chart-band, rgba(110,115,130,.14))',
       }),
-      Plot.ruleX(d.band, { stroke: 'var(--rule)', strokeWidth: 1 }),
-      Plot.ruleX([0], { stroke: 'var(--dim)', strokeWidth: 1 }),
+      Plot.ruleX(d.band, { stroke: 'var(--rule, #c8cbd3)', strokeWidth: 1 }),
+      Plot.ruleX([0], { stroke: 'var(--dim, #3f434e)', strokeWidth: 1 }),
 
       Plot.ruleY(d.arms, {
         y: 'label', x1: (a) => a.ci[0], x2: (a) => a.ci[1],
@@ -39,28 +39,28 @@ const { wide, narrow } = responsive(
       Plot.tickX(d.arms, { y: 'label', x: 'median', stroke: hue, strokeWidth: 3, insetTop: 8, insetBottom: 8 }),
       Plot.dot(d.arms, {
         y: 'label', x: 'mean', r: 5,
-        fill: hue, stroke: 'var(--bg)', strokeWidth: 2,
+        fill: hue, stroke: 'var(--bg, #ffffff)', strokeWidth: 2,
       }),
       Plot.text(d.arms, {
         y: 'label', text: 'label',
         frameAnchor: 'left', textAnchor: 'start', dy: -18,
-        fill: 'var(--dim)', fontSize: 12,
+        fill: 'var(--dim, #3f434e)', fontSize: 12,
       }),
       Plot.text(d.arms, {
         y: 'label', x: 'mean', text: (a) => money3(a.mean),
-        dy: -18, fill: 'var(--ink)', fontSize: 12,
+        dy: -18, fill: 'var(--ink, #14161b)', fontSize: 12,
       }),
       Plot.text(d.arms, {
         y: 'label', x: 'median', text: (a) => `median ${money3(a.median)}`,
-        dy: 24, fill: 'var(--muted)', fontSize: 11,
+        dy: 24, fill: 'var(--muted, #5f6370)', fontSize: 11,
       }),
       Plot.text(['pricier with headroom'], {
         frameAnchor: 'bottom-left', textAnchor: 'start', dy: 36,
-        fill: 'var(--muted)', fontSize: 11,
+        fill: 'var(--muted, #5f6370)', fontSize: 11,
       }),
       Plot.text(['cheaper with headroom'], {
         frameAnchor: 'bottom-right', textAnchor: 'end', dy: 36,
-        fill: 'var(--muted)', fontSize: 11,
+        fill: 'var(--muted, #5f6370)', fontSize: 11,
       }),
     ],
   }),
@@ -69,28 +69,28 @@ const { wide, narrow } = responsive(
 ---
 
 <figure class="fig">
-  <p class="fig-head">mean per-task cost delta, off minus on</p>
-  <p class="fig-sub">dot is the mean, bar is the median, line is the 95% bootstrap CI</p>
+  <p class="fig-head">dollars saved per task, compared to baseline</p>
+  <p class="fig-sub">dot is the mean, bar is the median, line is the 95% bootstrap ci</p>
   <div class="fig-key">
-    <span><i class="sw sw-band"></i> A/A control noise band</span>
-    <span><i class="sw sw-dot sw-grey"></i> on-cache, control</span>
-    <span><i class="sw sw-dot sw-accent"></i> on-token, treatment</span>
+    <span><i class="sw sw-band"></i> run-to-run noise band</span>
+    <span><i class="sw sw-dot sw-grey"></i> cache mode</span>
+    <span><i class="sw sw-dot sw-accent"></i> token mode</span>
   </div>
   <div class="plot-wide" set:html={wide} />
   <div class="plot-narrow" set:html={narrow} />
   <div class="fig-stats">
     {d.arms.map((a) => (
       <div>
-        <b>{a.label}, {a.role === 'control' ? 'A/A control' : 'treatment'}</b> n <i>{a.n}</i>
-        &middot; Wilcoxon p <i>{a.p}</i> &middot; Cohen's dz <i>{a.dz}</i> &middot;
+        <b>{a.label}</b> n <i>{a.n}</i>
+        &middot; wilcoxon p <i>{a.p}</i> &middot; cohen's dz <i>{a.dz}</i> &middot;
         <i>{a.cheaper}</i> cheaper / <i>{a.pricier}</i> pricier
       </div>
     ))}
   </div>
   <figcaption>
-    Running the identical configuration twice, which is what the control arm is, already produces an
-    apparent saving of <b>$0.730</b> per task. The treatment's <b>$0.367</b> lands inside that band, its
-    median is <b>negative</b>, and more of its tasks came out pricier than cheaper. There is no effect
+    running the identical configuration twice, which is what cache mode amounts to, already produces an
+    apparent saving of <b>$0.730</b> per task. token mode's <b>$0.367</b> lands inside that band, its
+    median is <b>negative</b>, and more of its tasks came out pricier than cheaper. there is no effect
     here to measure.
   </figcaption>
 </figure>

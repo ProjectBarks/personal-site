@@ -11,9 +11,18 @@ interface Props {
   ogUrl: string;
   cmd: string;
   backToTop?: boolean;
+  // per-page unfurl card; pages that don't pass these fall back to site meta
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
 }
 const { active, title, ogUrl, cmd, backToTop = false } = Astro.props;
 const m = resume.meta;
+const ogTitle = deEm(Astro.props.ogTitle ?? m.title);
+const ogDescription = deEm(Astro.props.ogDescription ?? m.og_description);
+const ogImage = Astro.props.ogImage
+  ? new URL(Astro.props.ogImage, m.url).href
+  : undefined;
 const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label));
 ---
 <!doctype html>
@@ -30,10 +39,18 @@ const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label))
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png" />
   <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png" />
   <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png" />
-  <meta property="og:title" content={deEm(m.title)} />
-  <meta property="og:description" content={deEm(m.og_description)} />
-  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={resume.name} />
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={ogDescription} />
+  <meta property="og:type" content={Astro.props.ogTitle ? 'article' : 'website'} />
   <meta property="og:url" content={ogUrl} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  {ogImage && <meta property="og:image:width" content="1200" />}
+  {ogImage && <meta property="og:image:height" content="630" />}
+  <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:title" content={ogTitle} />
+  <meta name="twitter:description" content={ogDescription} />
+  {ogImage && <meta name="twitter:image" content={ogImage} />}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" />

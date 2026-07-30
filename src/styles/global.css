@@ -23,6 +23,12 @@
   /* banner is 63 monospace columns; 63 x 0.6021em advance = 38em. A face with a
      different advance needs a different divisor, so it lives here as a number. */
   --banner-div:38;
+  /* the article measure: 66 monospace columns, 66 x 0.6021em at the 16px root.
+     Held as one length because ch resolves against each element's own font, and
+     a figcaption set in IBM Plex Sans would compute a different 66ch than the
+     text column set in JetBrains Mono. Anything that has to line up with the
+     prose reads this, so the two cannot drift. */
+  --measure:39.74rem;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -213,7 +219,7 @@ html{scroll-behavior:smooth}
    it symmetrically. Before this the prose was 66ch left-aligned inside a 780px
    wrap while the figures ran the full width, so every chart overhung to the
    right only and nothing lined up. */
-.post{max-width:66ch;margin-inline:auto}
+.post{max-width:var(--measure);margin-inline:auto}
 .prose{
   font-family:'IBM Plex Sans',system-ui,sans-serif;
   color:var(--ink);max-width:none;font-size:17px;line-height:1.7;
@@ -237,6 +243,27 @@ html{scroll-behavior:smooth}
 /* a full-width color block instead of a border-left accent stripe */
 .prose blockquote{background:var(--accent-soft);padding:14px 18px;margin:0 0 18px;
   border-radius:4px;color:var(--dim)}
+
+/* gfm footnotes. The generated "Footnotes" label ships with class="sr-only",
+   which this sheet never defined, so without the rule below it would render
+   visibly and in title case. Refs draw their own [n] brackets in the mono
+   face so markers read as terminal citations rather than superscript dust. */
+.prose sup{line-height:0}
+.prose [data-footnote-ref]{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;text-decoration:none;
+}
+.prose [data-footnote-ref]::before{content:"["}
+.prose [data-footnote-ref]::after{content:"]"}
+.prose .footnotes{margin-top:34px;padding-top:14px;border-top:1px dashed var(--rule);
+  color:var(--muted);font-size:14px}
+.prose .footnotes .sr-only{
+  position:absolute;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}
+.prose .footnotes ol{margin:0;padding-left:1.4em}
+.prose .footnotes p{margin:0}
+.prose .footnotes [data-footnote-backref]{text-decoration:none;margin-left:6px}
 
 /* ---- charts ------------------------------------------------------------
    Charts are Observable Plot output, serialised to SVG at build time. Plot
@@ -271,8 +298,11 @@ html{scroll-behavior:smooth}
   color:var(--ink);margin:0 0 2px;font-weight:500}
 .fig-sub{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;
   color:var(--muted);margin:0 0 10px}
+/* the caption is prose, not chart furniture, so it returns to the text column
+   rather than sitting on the figure's overhanging left edge */
 .fig figcaption{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--muted);
-  font-size:14px;line-height:1.6;margin-top:12px;max-width:64ch}
+  font-size:14px;line-height:1.6;margin-top:12px;
+  max-width:var(--measure);margin-inline:auto}
 .fig figcaption b{color:var(--dim);font-weight:600}
 .fig-pair{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .fig-key{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 10px;

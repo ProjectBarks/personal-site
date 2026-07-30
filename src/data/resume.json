@@ -14,7 +14,7 @@
   },
   "ascii": " ___                  _              ___           _\n| _ )_ _ __ _ _ _  __| |___ _ _     | _ ) __ _ _ _| |_____ _ _\n| _ \\ '_/ _` | ' \\/ _` / _ \\ ' \\    | _ \\/ _` | '_| / / -_) '_|\n|___/_| \\__,_|_||_\\__,_\\___/_||_|   |___/\\__,_|_| |_\\_\\___|_|",
   "meta_chips": ["~/nyc", "uber/marketplace", "wcu '21", "est. 2001"],
-  "lede_html": "tinkerer, inventor, nerd, staff software engineer. building tools that map the world — from <a href=\"#prostheticarm\">prosthetic arms</a> and <a href=\"#boostogy\">educational learning platforms</a>, to <a href=\"#ioculist\">eye exams</a> and <a href=\"https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274\">self-driving HD maps</a>. innovating for the future and pushing the boundaries of what i know — every year.",
+  "lede_html": "tinkerer, inventor, nerd, staff software engineer. building tools that map the world — from <a href=\"#prostheticarm\">prosthetic arms</a> and <a href=\"#boostogy\">educational learning platforms</a>, to <a href=\"#ioculist\">eye exams</a> and <a href=\"https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274\">self-driving hd maps</a>. innovating for the future and pushing the boundaries of what i know — every year.",
 
   "work": [
     { "year": "2021 →", "name": "uber",      "role_html": "staff software engineer · marketplace data &amp; intelligence",                                            "location": "new york" },
