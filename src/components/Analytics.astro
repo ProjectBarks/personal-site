@@ -1,0 +1,15 @@
+---
+// The site's only client-side JavaScript. Loaded with Astro's default deferred
+// module script, so it never blocks render, and the import is bundled by Vite
+// from the npm package rather than pulled from a CDN at runtime.
+//
+// The dynamic import plus catch is the outer guard: if the analytics chunk
+// fails to load at all, whether from a network error or a content blocker, the
+// rejection is swallowed here and the page carries on unaffected.
+---
+
+<script>
+  import('../lib/analytics.js')
+    .then((m) => m.initAnalytics())
+    .catch(() => {});
+</script>

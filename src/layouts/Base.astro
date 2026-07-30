@@ -3,6 +3,7 @@
 import '../styles/global.css';
 import resume from '../data/resume.json';
 import Topbar from '../components/Topbar.astro';
+import Analytics from '../components/Analytics.astro';
 import { deEm } from '../lib/text';
 
 interface Props {
@@ -75,5 +76,6 @@ const contact = resume.contact.filter((c) => !/resume|instagram/i.test(c.label))
       {backToTop && <span class="totop"><a href="#top">^ top</a></span>}
     </footer>
   </main>
+  <Analytics />
 </body>
 </html>
