@@ -247,7 +247,7 @@
           "source": "SITE",
           "title": "Headroom",
           "date": "2026",
-          "description": "Investigation: a 39% LLM token cut saved nothing once prompt caching was priced in (blog post, Uber)",
+          "description": "Evaluated LLM token compression: a 39% token cut saved nothing under prompt caching (blog post, Uber)",
           "links": [
             {
               "text": "blog post",
