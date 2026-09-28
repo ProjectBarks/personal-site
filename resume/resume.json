@@ -81,20 +81,17 @@
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Removed ~2,500 duplicate configurations and cut partner onboarding (−40%) with reusable server-driven UI components"
+                  "text": "Designed a shared presentation model for partner benefits, removing ~2,500 duplicate screen configs; onboarding −40%"
                 },
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Launched ride membership UI to 100% of Uber One riders in 5 markets at +10K QPS and 225 ms p99 with 7 engineers"
+                  "text": "Led Membership Awareness on rides (7 engineers): Home Screen Wallet and in-trip benefits at +10K QPS, 225 ms p99"
                 },
                 {
                   "priority": 2,
                   "source": "IR25",
-                  "tags": [
-                    "sensitive"
-                  ],
-                  "text": "Cut Member Days page load from 5 s to 800 ms; campaign drove +2.5% week-over-week delivery growth (~$43M bookings)"
+                  "text": "Launched Uber One's Member Days, a global campaign that drove 525K+ incremental Uber One sign-ups"
                 },
                 {
                   "priority": 1,
@@ -121,8 +118,12 @@
                   "priority": 1,
                   "source": "IR23+IR25",
                   "text": "Automated 47% of 171K+ annual questions across 416 Slack channels with Genie, an AI assistant built by 4 engineers",
-                  "link": "https://www.uber.com/us/en/blog/genie-ubers-gen-ai-on-call-copilot/",
-                  "linkText": "Genie"
+                  "links": [
+                    {
+                      "text": "Genie",
+                      "href": "https://www.uber.com/us/en/blog/genie-ubers-gen-ai-on-call-copilot/"
+                    }
+                  ]
                 },
                 {
                   "priority": 1,
@@ -195,7 +196,13 @@
           "title": "comma.ai",
           "link": "https://comma.ai",
           "date": "2018",
-          "description": "Mapped 5M+ miles of driving data; authored “HD Maps for the Masses”"
+          "description": "Mapped 5M+ miles of driving data; authored “HD Maps for the Masses”",
+          "links": [
+            {
+              "text": "HD Maps for the Masses",
+              "href": "https://medium.com/@comma_ai/hd-maps-for-the-masses-9a0d582dd274"
+            }
+          ]
         },
         {
           "layout": "line",
@@ -238,12 +245,19 @@
           "layout": "line",
           "priority": 1,
           "source": "SITE",
-          "title": "Headroom study",
-          "link": "https://brandonbarker.me/writing/headroom-fewer-tokens-bigger-bill",
+          "title": "Headroom",
           "date": "2026",
-          "description": "A/B test of 25 tasks: a 39% LLM token cut saved nothing once prompt caching counted; credited by Uber",
-          "descLink": "https://www.uber.com/us/en/blog/efficient-software-factory/",
-          "descLinkText": "credited by Uber"
+          "description": "Investigation: a 39% LLM token cut saved nothing once prompt caching was priced in (blog post, Uber)",
+          "links": [
+            {
+              "text": "blog post",
+              "href": "https://brandonbarker.me/writing/headroom-fewer-tokens-bigger-bill"
+            },
+            {
+              "text": "Uber",
+              "href": "https://www.uber.com/us/en/blog/efficient-software-factory/"
+            }
+          ]
         },
         {
           "layout": "line",

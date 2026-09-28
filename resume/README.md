@@ -18,6 +18,7 @@ Everything lives in `resume.json`.
 - `tags` let a build drop items, e.g. `"tags": ["sensitive"]` with `--exclude sensitive`.
 - `source` records where a claim came from (IR23 / PERF24 / IR25 impact resumes, CV20 = 2020 resume).
 - `layout: "line"` renders an entry as one line: title, description, right-aligned date (internships, education, honors).
+- `links: [{ "text": "phrase", "href": "url" }]` on a bullet or row turns each phrase in its text into a hyperlink.
 - `summary` is the two-line intro under the name. `skills` are labelled rows, not rating dots, so ATS parsers read them.
 - `variants` sets each variant's `maxPriority` and `maxPages`. The build fails if the PDF runs over.
 
