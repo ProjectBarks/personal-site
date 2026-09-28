@@ -1,0 +1,317 @@
+{
+  "$comment": "Master resume data. priority: 1 = every variant, 2 = full + extended, 3 = extended only. tags let a build drop items (--exclude sensitive). source: IR23 / PERF24 / IR25 = Uber impact resumes, CV20 = 2020 resume, SITE = brandonbarker.me data, GUIDE = behavioral guide. layout: default = title, subtitle, bullets; line = title + description on one line.",
+  "header": {
+    "first": "Brandon",
+    "last": "Barker",
+    "titles": [
+      "Staff Software Engineer",
+      "Tech Lead"
+    ],
+    "contact": [
+      {
+        "icon": "phone",
+        "text": "+1 (215) 530 - 1609",
+        "href": "tel:+12155301609"
+      },
+      {
+        "icon": "email",
+        "text": "contact@brandonbarker.me",
+        "href": "mailto:contact@brandonbarker.me"
+      },
+      {
+        "icon": "web",
+        "text": "brandonbarker.me",
+        "href": "https://brandonbarker.me"
+      },
+      {
+        "icon": "github",
+        "text": "github.com/projectbarks",
+        "href": "https://github.com/ProjectBarks"
+      },
+      {
+        "icon": "linkedin",
+        "text": "linkedin.com/in/projectbarks",
+        "href": "https://www.linkedin.com/in/projectbarks/"
+      }
+    ]
+  },
+  "summary": {
+    "priority": 1,
+    "source": "GUIDE",
+    "text": "Staff engineer and lifelong builder shipping production software since 2014, from self-driving HD maps to Uber One, where I am tech lead across platform, growth, and AI for a 60-person org."
+  },
+  "skills": [
+    {
+      "label": "Languages",
+      "items": "TypeScript, JavaScript, Go, Java, Python, SQL"
+    },
+    {
+      "label": "Systems",
+      "items": "React, Node.js, gRPC, GraphQL, Redis, MySQL, Kafka, Cadence, Spark, Presto, AWS, Docker"
+    },
+    {
+      "label": "AI & Practice",
+      "items": "LLMs, RAG, vector search, MCP, A/B experimentation, observability & SLOs, shadow testing"
+    }
+  ],
+  "sections": [
+    {
+      "title": "Experience",
+      "entries": [
+        {
+          "title": "Uber",
+          "link": "https://www.uber.com",
+          "date": "2021 – Present",
+          "priority": 1,
+          "roles": [
+            {
+              "title": "Staff Software Engineer, Tech Lead · Uber One",
+              "date": "2024 – Present",
+              "bullets": [
+                {
+                  "priority": 1,
+                  "source": "IR25",
+                  "text": "Drove 406K+ monthly Uber One sign-ups by leading 5 engineers on 8 launches; 2FA checkout trending toward +500K/mo"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR25",
+                  "text": "Increased delivery speed +70% by leading 7 engineers to migrate 57 screens to server-driven UI with zero incidents"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR25",
+                  "text": "Removed ~2,500 duplicate configurations and cut partner onboarding (−40%) with reusable server-driven UI components"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR25",
+                  "text": "Launched ride membership UI to 100% of Uber One riders in 5 markets at +10K QPS and 225 ms p99 with 7 engineers"
+                },
+                {
+                  "priority": 2,
+                  "source": "IR25",
+                  "tags": [
+                    "sensitive"
+                  ],
+                  "text": "Cut Member Days page load from 5 s to 800 ms; campaign drove +2.5% week-over-week delivery growth (~$43M bookings)"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR25+GUIDE",
+                  "text": "Mentored 6 engineers (4 on promotion tracks); conducted 28 onsite interviews; wrote 16 design docs and reviewed 28"
+                },
+                {
+                  "priority": 3,
+                  "source": "IR25",
+                  "text": "Designed Annual Plan Winback on a shared gRPC eligibility API, cutting opt-outs 1.11pp and lifting renewals 1.72pp."
+                },
+                {
+                  "priority": 3,
+                  "source": "PERF24",
+                  "text": "Halved Eats web scripting time with the React Compiler (Load Cart 8.2 s to 4.4 s) across 1,000+ monorepo projects."
+                }
+              ]
+            },
+            {
+              "title": "Web Lead · Uber One Membership",
+              "date": "2023 – 2024",
+              "bullets": [
+                {
+                  "priority": 1,
+                  "source": "IR23+IR25",
+                  "text": "Automated 47% of 171K+ annual questions across 416 Slack channels with Genie, an AI assistant built by 4 engineers",
+                  "link": "https://www.uber.com/us/en/blog/genie-ubers-gen-ai-on-call-copilot/",
+                  "linkText": "Genie"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR23",
+                  "text": "Cut the web cancellation rate from 89.5% to 73.8%, retaining 107K+ members a year by redesigning the flow"
+                },
+                {
+                  "priority": 2,
+                  "source": "IR23",
+                  "text": "Cut seasonal churn 5.65% by leading 5 engineers to launch membership pause and resume with zero incidents"
+                }
+              ]
+            },
+            {
+              "title": "Software Engineer · Merchant Core & Web Platform",
+              "date": "2021 – 2023",
+              "bullets": [
+                {
+                  "priority": 1,
+                  "source": "IR23",
+                  "text": "Enabled migration of 2M+ merchant chains by designing hierarchies; led 4 engineers on a catalog platform"
+                },
+                {
+                  "priority": 1,
+                  "source": "IR23",
+                  "text": "Led migration of 50+ projects (100K+ lines) to TypeScript; enabled strict null checks across 885 projects"
+                },
+                {
+                  "priority": 3,
+                  "source": "IR23",
+                  "text": "Led observability for Uber's web architecture group: 10+ teams, 19K+ alerts, RPC error classification on 50M+ events/day."
+                },
+                {
+                  "priority": 3,
+                  "source": "IR23",
+                  "text": "Cut dev cold-start 76% and hot reload 52%, saving 96 eng-weeks a year; built Fusion Inspector for 55+ engineers."
+                }
+              ]
+            }
+          ],
+          "tagline": "New York, NY · Eng I (2021), Eng II (2022), Senior (2025), Staff (2026)"
+        }
+      ]
+    },
+    {
+      "title": "Internships",
+      "entries": [
+        {
+          "layout": "line",
+          "priority": 1,
+          "source": "CV20",
+          "title": "Uber",
+          "link": "https://www.uber.com",
+          "date": "2020",
+          "description": "Architected dynamic clustering for marketplace ML experiments using H3 hexagons on Hive, Presto, and Spark"
+        },
+        {
+          "layout": "line",
+          "priority": 1,
+          "source": "CV20",
+          "title": "Cesium",
+          "link": "https://cesium.com",
+          "date": "2019",
+          "description": "Launched Blender, 3ds Max, and WebODM pipelines in Cesium ion (two launch posts); led CesiumJS 1.61 rendering"
+        },
+        {
+          "layout": "line",
+          "priority": 1,
+          "source": "CV20",
+          "title": "comma.ai",
+          "link": "https://comma.ai",
+          "date": "2018",
+          "description": "Mapped 5M+ miles of driving data; authored “HD Maps for the Masses”"
+        },
+        {
+          "layout": "line",
+          "priority": 1,
+          "source": "CV20",
+          "title": "Dokkio",
+          "date": "2017",
+          "description": "Built a thousand-page document preview engine and a file-categorization recommender from 2 TB of data"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "Yurgosky",
+          "date": "2016",
+          "description": "Built Salesforce integrations for Teach For America and Robin Hood Foundation; developed a ticketing system"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "Airphrame",
+          "date": "2015",
+          "description": "Consolidated 100 GB exports via a ZIP service; built drone obstacle avoidance and 2+ hour video capture"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "CloudMine",
+          "date": "2014",
+          "description": "Built a HIPAA-compliant Android API and Docker-based continuous integration for staging and production"
+        }
+      ]
+    },
+    {
+      "title": "Projects",
+      "entries": [
+        {
+          "layout": "line",
+          "priority": 1,
+          "source": "SITE",
+          "title": "Headroom study",
+          "link": "https://brandonbarker.me/writing/headroom-fewer-tokens-bigger-bill",
+          "date": "2026",
+          "description": "Measured no savings from a 39% LLM token cut in a 25-task A/B test factoring in prompt caching"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "Elderlyf",
+          "date": "2019",
+          "description": "Placed Top 10 of 1,200+ at PennApps with a walker for the visually impaired using SLAM and haptics"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "iOculist",
+          "link": "https://github.com/springle/iOculist",
+          "date": "2014",
+          "description": "Placed 2nd of 500+ at HackBCA by building a voice-driven iOS/Android Snellen eye exam in 24 hours"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "Prosthetic arm",
+          "date": "2011",
+          "description": "Won 2nd place at Delaware Valley Science with EEG control using C++ pattern recognition"
+        },
+        {
+          "layout": "line",
+          "priority": 3,
+          "source": "GITHUB",
+          "title": "Beli API",
+          "link": "https://github.com/ProjectBarks/beli-api",
+          "date": "2026",
+          "description": "TypeScript, Python, and Go SDKs generated from a hand-written OpenAPI 3.1 spec."
+        }
+      ]
+    },
+    {
+      "title": "Education & Recognition",
+      "entries": [
+        {
+          "layout": "line",
+          "priority": 1,
+          "title": "West Chester University",
+          "date": "2017 – 2021",
+          "description": "B.S. Computer Science & B.S. Business Management, Minor in Mathematics · GPA 3.9"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "MLH Top 50",
+          "date": "2020",
+          "description": "Earned a place among 50 of 100,000+ hackers; 1871 Award; featured for 3D-printing COVID face shields"
+        },
+        {
+          "layout": "line",
+          "priority": 2,
+          "source": "SITE",
+          "title": "Founder",
+          "date": "2011 – 2021",
+          "description": "Raised $30K+ and drew 250+ attendees to HackWCU and STEMHacks; founded Out of the Box Robotics"
+        }
+      ]
+    }
+  ],
+  "variants": {
+    "full": {
+      "maxPriority": 2,
+      "maxPages": 1
+    }
+  }
+}

@@ -1,0 +1,6 @@
+out/
+logs/
+run.log
+items.json
+resume.before-codex.json
+__pycache__/

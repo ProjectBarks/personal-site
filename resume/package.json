@@ -1,0 +1,12 @@
+{
+  "name": "brandon-resume",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "pdf": "node build.mjs --pdf"
+  },
+  "dependencies": {
+    "docx": "^9.8.1"
+  }
+}
