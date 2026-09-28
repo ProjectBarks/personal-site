@@ -43,7 +43,7 @@
   "skills": [
     {
       "label": "Languages",
-      "items": "TypeScript, JavaScript, Go, Java, Python, SQL"
+      "items": "Go, TypeScript, JavaScript, Java, Python, SQL"
     },
     {
       "label": "Systems",
@@ -51,7 +51,7 @@
     },
     {
       "label": "AI & Practice",
-      "items": "LLMs, RAG, vector search, MCP, A/B experimentation, observability & SLOs, shadow testing"
+      "items": "LLMs, RAG, vector search, MCP, A/B experimentation"
     }
   ],
   "sections": [
