@@ -115,17 +115,22 @@ function roleHeading(r) {
   });
 }
 
-// A bullet can link one phrase: { text, link, linkText } renders linkText in
-// the accent colour as a hyperlink.
-function bullet(b) {
-  const { text, link, linkText } = typeof b === 'string' ? { text: b } : b;
+// Runs for text with one optional hyperlinked phrase (accent colour).
+function linkedText(text, link, linkText) {
   const at = link && linkText ? text.indexOf(linkText) : -1;
-  const children = at === -1 ? [run(text)] : [
+  if (at === -1) return [run(text)];
+  return [
     run(text.slice(0, at)),
     new ExternalHyperlink({ link, children: [run(linkText, { color: C.accent })] }),
     run(text.slice(at + linkText.length)),
   ];
-  return new Paragraph({ numbering: { reference: 'dot', level: 0 }, children });
+}
+
+// A bullet can link one phrase: { text, link, linkText } renders linkText in
+// the accent colour as a hyperlink.
+function bullet(b) {
+  const { text, link, linkText } = typeof b === 'string' ? { text: b } : b;
+  return new Paragraph({ numbering: { reference: 'dot', level: 0 }, children: linkedText(text, link, linkText) });
 }
 
 // Inline layout: "COMPANY · Role, Location ........ date" then one plain line.
@@ -222,7 +227,8 @@ function lineEntry(e) {
     spacing: { after: 30 },
     children: [
       ...maybeLink(e.link, [run(e.title, { font: F.roboto, size: 10.5, color: C.accent, extra: { bold: true, smallCaps: true } })]),
-      run(`   ${e.description ?? ''}`),
+      run('   '),
+      ...linkedText(e.description ?? '', e.descLink, e.descLinkText),
       run('\t', { font: F.light, size: 10.5 }),
       run(e.date ?? '', { font: F.light, size: 10.5 }),
     ],

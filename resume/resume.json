@@ -241,7 +241,9 @@
           "title": "Headroom study",
           "link": "https://brandonbarker.me/writing/headroom-fewer-tokens-bigger-bill",
           "date": "2026",
-          "description": "Measured no savings from a 39% LLM token cut in a 25-task A/B test factoring in prompt caching"
+          "description": "A/B test of 25 tasks: a 39% LLM token cut saved nothing once prompt caching counted; credited by Uber",
+          "descLink": "https://www.uber.com/us/en/blog/efficient-software-factory/",
+          "descLinkText": "credited by Uber"
         },
         {
           "layout": "line",
