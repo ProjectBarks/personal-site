@@ -71,32 +71,27 @@
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Drove 406K+ monthly Uber One sign-ups by leading 5 engineers on 8 launches; 2FA checkout trending toward +500K/mo"
+                  "text": "Drove 406K+ monthly Uber One sign-ups by leading 5 engineers on 8 launches"
                 },
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Increased delivery speed +70% by leading 7 engineers to migrate 57 screens to server-driven UI with zero incidents"
+                  "text": "Improved engineering velocity 70% by leading the migration of 57 screens to server-driven UI"
                 },
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Designed a shared presentation model for partner benefits, removing ~2,500 duplicate screen configs; onboarding −40%"
+                  "text": "Designed a shared presentation model for partner benefits, cutting new-benefit onboarding effort 40%"
                 },
                 {
                   "priority": 1,
                   "source": "IR25",
-                  "text": "Led Membership Awareness on rides (7 engineers): Home Screen Wallet and in-trip benefits at +10K QPS, 225 ms p99"
+                  "text": "Led Membership Awareness on rides, shipping Home Screen Wallet and in-trip benefits"
                 },
                 {
                   "priority": 2,
                   "source": "IR25",
                   "text": "Launched Uber One's Member Days, a global campaign that drove 525K+ incremental Uber One sign-ups"
-                },
-                {
-                  "priority": 1,
-                  "source": "IR25+GUIDE",
-                  "text": "Mentored 6 engineers (4 on promotion tracks); conducted 28 onsite interviews; wrote 16 design docs and reviewed 28"
                 },
                 {
                   "priority": 3,
@@ -128,12 +123,12 @@
                 {
                   "priority": 1,
                   "source": "IR23",
-                  "text": "Cut the web cancellation rate from 89.5% to 73.8%, retaining 107K+ members a year by redesigning the flow"
+                  "text": "Redesigned the web cancellation flow, retaining 107K+ more Uber One members a year"
                 },
                 {
                   "priority": 2,
                   "source": "IR23",
-                  "text": "Cut seasonal churn 5.65% by leading 5 engineers to launch membership pause and resume with zero incidents"
+                  "text": "Led membership pause and resume, cutting seasonal churn 5.65% with zero incidents"
                 }
               ]
             },
